@@ -13,9 +13,11 @@ class BankingRepository extends IBankingRepository {
 
   @override
   Future<ApiResponse> doTransfer(
-      Map<String, dynamic> request, String id) async {
+    Map<String, dynamic> request,
+    String id,
+  ) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.post,
+      method: HttpMethod.get,
       endpoint: "banks/$id/transfer",
       reqBody: request,
     );
