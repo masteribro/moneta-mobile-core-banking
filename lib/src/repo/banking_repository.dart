@@ -1,22 +1,21 @@
+import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/constants/constants.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
-import 'package:moneta_core_banking/src/utils/api_response.dart';
-
-import '../utils/api_service.dart';
 
 class BankingRepository extends IBankingRepository {
   final String token;
   late ApiService api;
 
   BankingRepository(this.token) {
-    api = ApiService(token);
+    api = ApiService(token: token, config: AppConstants.libConfig,);
   }
 
   @override
-  Future<ApiResponse> doTransfer(
+  Future<MonetaResponseModel> doTransfer(
     Map<String, dynamic> request,
     String id,
   ) async {
-    ApiResponse response = await api.call(
+    MonetaResponseModel response = await api.call(
       method: HttpMethod.get,
       endpoint: "banks/$id/transfer",
       reqBody: request,
@@ -25,8 +24,8 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> getBalance(String id) async {
-    ApiResponse response = await api.call(
+  Future<MonetaResponseModel> getBalance(String id) async {
+    MonetaResponseModel response = await api.call(
       method: HttpMethod.get,
       endpoint: "banks/$id/balance",
     );
@@ -34,11 +33,11 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> doTransferOther(
+  Future<MonetaResponseModel> doTransferOther(
     Map<String, dynamic> request,
     String id,
   ) async {
-    ApiResponse response = await api.call(
+    MonetaResponseModel response = await api.call(
       method: HttpMethod.post,
       endpoint: "banks/$id/transfer_other",
       reqBody: request,

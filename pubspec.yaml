@@ -1,7 +1,8 @@
 name: moneta_core_banking
 description: A new Flutter project.
 version: 0.0.1
-homepage:
+homepage: "www.moneta.ng"
+publish_to: none
 
 environment:
   sdk: '>=2.18.5 <3.0.0'
@@ -12,6 +13,10 @@ dependencies:
     sdk: flutter
   dio: ^4.0.6
   pretty_dio_logger: ^1.1.1
+  moneta_base_library:
+    git:
+      url: https://github.com/monetang/moneta_base_library_mobile.git
+      ref: 1c09f4b
 
 dev_dependencies:
   flutter_test:
