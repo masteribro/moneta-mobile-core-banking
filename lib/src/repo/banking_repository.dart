@@ -11,11 +11,11 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<MonetaResponseModel> doTransfer(
+  Future<ApiResponse> doTransfer(
     Map<String, dynamic> request,
     String id,
   ) async {
-    MonetaResponseModel response = await api.call(
+    ApiResponse response = await api.call(
       method: HttpMethod.get,
       endpoint: "banks/$id/transfer",
       reqBody: request,
@@ -24,8 +24,8 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<MonetaResponseModel> getBalance(String id) async {
-    MonetaResponseModel response = await api.call(
+  Future<ApiResponse> getBalance(String id) async {
+    ApiResponse response = await api.call(
       method: HttpMethod.get,
       endpoint: "banks/$id/balance",
     );
@@ -33,11 +33,11 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<MonetaResponseModel> doTransferOther(
+  Future<ApiResponse> doTransferOther(
     Map<String, dynamic> request,
     String id,
   ) async {
-    MonetaResponseModel response = await api.call(
+    ApiResponse response = await api.call(
       method: HttpMethod.post,
       endpoint: "banks/$id/transfer_other",
       reqBody: request,

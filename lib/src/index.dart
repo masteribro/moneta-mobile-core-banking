@@ -14,14 +14,14 @@ class MonetaCoreBanking {
     _bankingRepo = BankingRepository(requestToken);
   }
 
-  Future<MonetaResponseModel> getBalance(String id) async {
+  Future<ApiResponse> getBalance(String id) async {
     try {
-      MonetaResponseModel res = await _bankingRepo.getBalance(id);
+      ApiResponse res = await _bankingRepo.getBalance(id);
 
       if (res.statusCode == 200) {
         Balance balance = Balance.fromJson(res.data["data"]);
 
-        return MonetaResponseModel(Response(
+        return ApiResponse(Response(
             statusCode: 200,
             data: balance,
 
@@ -32,7 +32,7 @@ class MonetaCoreBanking {
         return res;
       }
     } catch (e) {
-      return MonetaResponseModel(
+      return ApiResponse(
         Response(
           statusCode: 500,
           data: e,

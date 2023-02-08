@@ -5,7 +5,7 @@ import 'package:moneta_core_banking/moneta_core_banking.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
-  late MonetaResponseModel response;
+  late ApiResponse response;
   String testToken;
   String? testID;
 
