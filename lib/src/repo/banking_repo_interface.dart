@@ -1,4 +1,5 @@
-import '../utils/api_response.dart';
+import 'package:moneta_base_library/lib_response.dart';
+
 
 abstract class IBankingRepository {
   Future<ApiResponse> doTransfer(

@@ -1,14 +1,13 @@
+import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/constants/constants.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
-import 'package:moneta_core_banking/src/utils/api_response.dart';
-
-import '../utils/api_service.dart';
 
 class BankingRepository extends IBankingRepository {
   final String token;
   late ApiService api;
 
   BankingRepository(this.token) {
-    api = ApiService(token);
+    api = ApiService(token: token, config: AppConstants.libConfig,);
   }
 
   @override
