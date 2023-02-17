@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:moneta_base_library/moneta_base_library.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
-import 'package:moneta_core_banking/src/utils/api_response.dart';
 
 class BankingRepositoryMock extends IBankingRepository {
   final String token;

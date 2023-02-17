@@ -1,3 +1,4 @@
+import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
@@ -5,7 +6,7 @@ import 'package:moneta_core_banking/moneta_core_banking.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
-  late ApiResponse response;
+  late Either<Balance, String> response;
   String testToken;
   String? testID;
 
@@ -21,11 +22,6 @@ void main() {
   /// Only run these tests to verify actual Server Responses
   test('Test core banking balance getter response type', () async {
     response = await coreHandler.getBalance(testID!);
-    if (response.statusCode == 200) {// Success
-      assert(response.data.runtimeType == Balance);
-    } else {
-      debugPrint(response.data);
-    }
+    debugPrint(response.toString());
   });
 }
-

@@ -7,7 +7,10 @@ class BankingRepository extends IBankingRepository {
   late ApiService api;
 
   BankingRepository(this.token) {
-    api = ApiService(token: token, config: AppConstants.libConfig,);
+    api = ApiService(
+      token: token,
+      config: AppConstants.libConfig,
+    );
   }
 
   @override
