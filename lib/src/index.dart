@@ -4,15 +4,13 @@ import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
 
-import 'repo/banking_repo_interface.dart';
-
 /// main entry class for all core banking functionality
 class MonetaCoreBanking {
   ///client request token passed from core app
   final String requestToken;
 
   ///initialization of banking repo as a type of banking repo interface
-  late IBankingRepository _bankingRepo;
+  late BankingRepository _bankingRepo;
 
   MonetaCoreBanking({
     required this.requestToken,
