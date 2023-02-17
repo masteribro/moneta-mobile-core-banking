@@ -19,7 +19,7 @@ class BankingRepository extends IBankingRepository {
     String id,
   ) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.get,
+      method: HttpMethod.post,
       endpoint: "banks/$id/transfer",
       reqBody: request,
     );
