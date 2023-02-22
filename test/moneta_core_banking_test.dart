@@ -7,6 +7,7 @@ import 'package:moneta_core_banking/src/models/account.dart';
 void main() {
   late MonetaCoreBanking coreHandler;
   late Either<Balance, String> response;
+  late Either<TransferResponse, String> transferResponse;
   late Either<Map, String> statementResponse;
   late Either<List<Bank>, String> getBanksResponse;
   late Either<List<Account>, String> getAllAccountsResponse;
@@ -24,9 +25,18 @@ void main() {
 
   /// NOTE: These tests make real network calls.
   /// Only run these tests to verify actual Server Responses
+  ///
   test('Test get balance - Core Banking', () async {
     response = await coreHandler.getBalance(testID!);
     debugPrint(response.toString());
+  });
+
+  test('Test do transfer - Core Banking', () async {
+    transferResponse = await coreHandler.transfer({
+      "amount": 100,
+      "account_number": 3087813431,
+    }, "011");
+    debugPrint(transferResponse.toString());
   });
 
 
