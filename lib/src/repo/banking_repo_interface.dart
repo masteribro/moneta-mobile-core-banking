@@ -13,4 +13,12 @@ abstract class IBankingRepository {
     Map<String, dynamic> request,
     String id,
   );
+
+  Future<ApiResponse> getAllBanks();
+
+  Future<ApiResponse> getMyAccounts();
+
+  Future<ApiResponse> addAccount(Map<String, dynamic> request);
+
+  Future<ApiResponse> getStatement(String bankId);
 }

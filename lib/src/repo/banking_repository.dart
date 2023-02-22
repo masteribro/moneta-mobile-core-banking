@@ -47,4 +47,41 @@ class BankingRepository extends IBankingRepository {
     );
     return response;
   }
+
+  @override
+  Future<ApiResponse> getAllBanks() async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "banks/all",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getMyAccounts() async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "banks/accounts",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> addAccount(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.post,
+      endpoint: "banks/accounts",
+      reqBody: request
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getStatement(String bankId) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.get,
+        endpoint: "banks/$bankId/transactions",
+    );
+    return response;
+  }
 }

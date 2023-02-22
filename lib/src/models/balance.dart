@@ -2,8 +2,8 @@ class Balance {
   String? responseCode;
   String? responseDescription;
   String? description;
-  double? availableBalance;
-  double? currentBalance;
+  String? availableBalance;
+  String? currentBalance;
 
   Balance({
     this.responseCode,
@@ -17,8 +17,8 @@ class Balance {
     responseCode = json['responseCode'];
     responseDescription = json['responseDescription'];
     description = json['description'];
-    availableBalance = json['availableBalance'];
-    currentBalance = json['currentBalance'];
+    availableBalance = json['availableBalance'].toString();
+    currentBalance = json['currentBalance'].toString();
   }
 
   Map<String, dynamic> toJson() {
