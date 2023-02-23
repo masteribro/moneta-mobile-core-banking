@@ -95,7 +95,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.getAllBanks();
       if (res.statusCode == 200) {
-        assert(res.data["data"].runtimeType == List);
+        assert(res.data["data"].runtimeType.toString().contains("List"));
         List<Bank> bankList = [];
         for (var bank in res.data["data"]){
           bankList.add(Bank.fromJson(bank));
