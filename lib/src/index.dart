@@ -17,11 +17,10 @@ class MonetaCoreBanking {
   late IBankingRepository _bankingRepo;
   final bool mock;
 
-  MonetaCoreBanking({
-    required this.requestToken,
-    this.mock = false
-  }) {
-    _bankingRepo = mock ? BankingRepositoryMock(requestToken) : BankingRepository(requestToken);
+  MonetaCoreBanking({required this.requestToken, this.mock = false}) {
+    _bankingRepo = mock
+        ? BankingRepositoryMock(requestToken)
+        : BankingRepository(requestToken);
   }
 
   ///implementation of get balance using dart either to return values for balance being either the [Balance] object on success or a string having message for a failure response
@@ -75,7 +74,8 @@ class MonetaCoreBanking {
   }
 
   /// returns either AccountInfo on success or error message
-  Future<Either<Account, String>> addAccount(Map<String, dynamic> request) async {
+  Future<Either<Account, String>> addAccount(
+      Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.addAccount(request);
 
@@ -97,7 +97,7 @@ class MonetaCoreBanking {
       if (res.statusCode == 200) {
         assert(res.data["data"].runtimeType.toString().contains("List"));
         List<Bank> bankList = [];
-        for (var bank in res.data["data"]){
+        for (var bank in res.data["data"]) {
           bankList.add(Bank.fromJson(bank));
         }
         return Left(bankList);
@@ -117,7 +117,7 @@ class MonetaCoreBanking {
         debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
         assert(res.data["data"].runtimeType.toString().contains("List"));
         List<Account> accountList = [];
-        for (var account in res.data["data"]){
+        for (var account in res.data["data"]) {
           accountList.add(Account.fromJson(account));
         }
         return Left(accountList);
