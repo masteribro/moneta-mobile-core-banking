@@ -357,14 +357,58 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> addAccount(Map<String, dynamic> request) {
-    // TODO: implement addAccount
-    throw UnimplementedError();
+  Future<ApiResponse> addAccount(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "data":
+          {
+            "id": 1,
+            "account_number": "0773175637",
+            "account_name": "Tijjani Yusuf",
+            "aggregator": 1,
+            "bank_code": "011",
+            "bank": {
+              "name": "First Bank of Nigeria",
+              "slug": "first-bank-of-nigeria",
+              "code": "011",
+              "ussd": "*894#"
+            },
+          },
+        },
+        requestOptions: RequestOptions(path: "")));
   }
 
   @override
   Future<ApiResponse> getStatement(String bankId) {
     // TODO: implement getStatement
     throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> resolveAccount(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "data":
+            {
+              "id": 1,
+              "account_number": "0773175637",
+              "account_name": "Tijjani Yusuf",
+              "aggregator": 1,
+              "bank_code": "011",
+              "bank": {
+                "name": "First Bank of Nigeria",
+                "slug": "first-bank-of-nigeria",
+                "code": "011",
+                "ussd": "*894#"
+              },
+            },
+        },
+        requestOptions: RequestOptions(path: "")));
   }
 }

@@ -68,4 +68,14 @@ class BankingRepository extends IBankingRepository {
     );
     return response;
   }
+
+  @override
+  Future<ApiResponse> resolveAccount(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "banks/acccounts/resolve",
+      reqBody: request
+    );
+    return response;
+  }
 }

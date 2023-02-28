@@ -6,6 +6,11 @@ class Bank {
 
   Bank({this.name, this.slug, this.code, this.ussd});
 
+  @override
+  String toString() {
+    return name.toString();
+  }
+
   Bank.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     slug = json['slug'];
