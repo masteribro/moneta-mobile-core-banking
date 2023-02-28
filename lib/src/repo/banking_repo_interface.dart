@@ -9,11 +9,6 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> getBalance(String id);
 
-  Future<ApiResponse> doTransferOther(
-    Map<String, dynamic> request,
-    String id,
-  );
-
   Future<ApiResponse> getAllBanks();
 
   Future<ApiResponse> getMyAccounts();

@@ -56,23 +56,6 @@ class MonetaCoreBanking {
     }
   }
 
-  ///returns either [TransferResponse] on success or error message
-  Future<Either<TransferResponse, String>> transferOther(
-      Map<String, dynamic> request, String id) async {
-    try {
-      ApiResponse res = await _bankingRepo.doTransferOther(request, id);
-      if (res.statusCode == 200) {
-        TransferResponse transferResponse =
-            TransferResponse.fromJson(res.data["data"]);
-        return Left(transferResponse);
-      } else {
-        return Right(res.data["message"]);
-      }
-    } catch (e) {
-      return Right(e.toString());
-    }
-  }
-
   /// returns either AccountInfo on success or error message
   Future<Either<Account, String>> addAccount(
       Map<String, dynamic> request) async {

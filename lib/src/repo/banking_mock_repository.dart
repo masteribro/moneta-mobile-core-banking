@@ -32,12 +32,6 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> doTransferOther(Map<String, dynamic> request, String id) {
-    // TODO: implement doTransferOther
-    throw UnimplementedError();
-  }
-
-  @override
   Future<ApiResponse> getBalance(String id) async {
     await Future.delayed(const Duration(seconds: 3));
     return ApiResponse(Response(
