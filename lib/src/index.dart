@@ -142,4 +142,22 @@ class MonetaCoreBanking {
       return Right(e.toString());
     }
   }
+
+  Future<Either<Account, String>> resolveAccount(String accountNumber, String bankCode) async {
+    try {
+      ApiResponse res = await _bankingRepo.resolveAccount({
+        "account_number" : accountNumber,
+        "bank" : bankCode
+      });
+      if (res.statusCode == 200) {
+        Account account = Account.fromJson(res.data["data"]);
+        return Left(account);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(e.toString());
+    }
+  }
 }

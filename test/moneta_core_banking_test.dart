@@ -12,13 +12,14 @@ void main() {
   late Either<List<Bank>, String> getBanksResponse;
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<Account, String> addAccountResponse;
+  late Either<Account, String> resolveAccountResponse;
   String testToken;
   String? testID;
 
   setUp(() async {
     testToken = "5|DLhoDiWFfy1WzBkThyeH3PNh9cAPaxACnfLTdn5b";
     testID = "1";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: true);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -65,5 +66,14 @@ void main() {
     getBanksResponse = await coreHandler.getAllBanks();
     // debugPrint(getBanksResponse.left.first.name);
     debugPrint(getBanksResponse.toString());
+  });
+
+  test('Test resolve account - Core Banking', () async {
+    resolveAccountResponse = await coreHandler.resolveAccount("3087813431", "011");
+    if (resolveAccountResponse.isLeft){
+      debugPrint(resolveAccountResponse.left.accountName);
+    } else {
+      debugPrint(resolveAccountResponse.right.toString());
+    }
   });
 }
