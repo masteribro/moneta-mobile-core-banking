@@ -20,7 +20,7 @@ class BankingRepository extends IBankingRepository {
   ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "banks/$id/transfer",
+      endpoint: "banks/accounts/$id/transfer",
       reqBody: request,
     );
     return response;
@@ -56,18 +56,15 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> addAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.post,
-      endpoint: "banks/accounts",
-      reqBody: request
-    );
+        method: HttpMethod.post, endpoint: "banks/accounts", reqBody: request);
     return response;
   }
 
   @override
   Future<ApiResponse> getStatement(String bankId) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.get,
-        endpoint: "banks/$bankId/transactions",
+      method: HttpMethod.get,
+      endpoint: "banks/$bankId/transactions",
     );
     return response;
   }
