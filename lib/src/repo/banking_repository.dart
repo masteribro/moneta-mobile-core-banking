@@ -78,13 +78,4 @@ class BankingRepository extends IBankingRepository {
     );
     return response;
   }
-
-  @override
-  Future<ApiResponse> removeAccount(String id) async {
-    ApiResponse response = await api.call(
-        method: HttpMethod.delete,
-        endpoint: "/banks/accounts/$id",
-    );
-    return response;
-  }
 }

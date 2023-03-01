@@ -2,6 +2,7 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
+import 'package:moneta_core_banking/src/models/account.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -12,7 +13,6 @@ void main() {
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<Account, String> addAccountResponse;
   late Either<Account, String> resolveAccountResponse;
-  late Either<String, String> removeAccountResponse;
   String testToken;
   String? testID;
 
@@ -74,15 +74,6 @@ void main() {
       debugPrint(resolveAccountResponse.left.accountName);
     } else {
       debugPrint(resolveAccountResponse.right.toString());
-    }
-  });
-
-  test('Test remove account - Core Banking', () async {
-    removeAccountResponse = await coreHandler.removeAccount("4");
-    if (resolveAccountResponse.isLeft){
-      debugPrint(removeAccountResponse.left);
-    } else {
-      debugPrint(removeAccountResponse.right.toString());
     }
   });
 }

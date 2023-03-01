@@ -382,15 +382,9 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> getStatement(String bankId) async {
-    await Future.delayed(const Duration(seconds: 3));
-    return ApiResponse(Response(
-        statusCode: 200,
-        data: {
-          "status": "success",
-          "data": []
-        },
-        requestOptions: RequestOptions(path: "")));
+  Future<ApiResponse> getStatement(String bankId) {
+    // TODO: implement getStatement
+    throw UnimplementedError();
   }
 
   @override
@@ -414,18 +408,6 @@ class BankingRepositoryMock extends IBankingRepository {
                 "ussd": "*894#"
               },
             },
-        },
-        requestOptions: RequestOptions(path: "")));
-  }
-
-  @override
-  Future<ApiResponse> removeAccount(String id) async {
-    await Future.delayed(const Duration(seconds: 3));
-    return ApiResponse(Response(
-        statusCode: 200,
-        data: {
-          "status": "success",
-          "message": "Account deleted successfully"
         },
         requestOptions: RequestOptions(path: "")));
   }
