@@ -10,7 +10,7 @@ class BankingRepositoryMock extends IBankingRepository {
   @override
   Future<ApiResponse> doTransfer(
       Map<String, dynamic> request, String id) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -33,7 +33,7 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> getBalance(String id) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
       statusCode: 200,
       data: {
@@ -52,7 +52,7 @@ class BankingRepositoryMock extends IBankingRepository {
   @override
   Future<ApiResponse> getAllBanks() async {
     // TODO: implement getAllBanks
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
       statusCode: 200,
       data: {
@@ -306,7 +306,7 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> getMyAccounts() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -358,7 +358,7 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> addAccount(Map<String, dynamic> request) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -389,7 +389,7 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> resolveAccount(Map<String, dynamic> request) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
