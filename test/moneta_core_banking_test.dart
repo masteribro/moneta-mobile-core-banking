@@ -15,6 +15,7 @@ void main() {
   late Either<Account, String> addAccountResponse;
   late Either<Account, String> resolveAccountResponse;
   late Either<List<Transaction>, String> getTransactionsResponse;
+  late Either<String, String> removeAccountResponse;
   String testToken;
   String? testID;
 
@@ -85,6 +86,12 @@ void main() {
       debugPrint(getTransactionsResponse.left.length.toString());
     } else {
       debugPrint(getTransactionsResponse.right.toString());
+  test('Test remove account - Core Banking', () async {
+    removeAccountResponse = await coreHandler.removeAccount("4");
+    if (resolveAccountResponse.isLeft){
+      debugPrint(removeAccountResponse.left);
+    } else {
+      debugPrint(removeAccountResponse.right.toString());
     }
   });
 }

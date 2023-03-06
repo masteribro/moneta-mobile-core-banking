@@ -20,4 +20,6 @@ abstract class IBankingRepository {
   Future<ApiResponse> resolveAccount(Map<String, dynamic> request);
 
   Future<ApiResponse> getTransactions(String accountId);
+  
+  Future<ApiResponse> removeAccount(String id);
 }

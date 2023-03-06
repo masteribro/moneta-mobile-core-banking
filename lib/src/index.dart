@@ -161,6 +161,17 @@ class MonetaCoreBanking {
         return Right(res.data["message"]);
       }
     } catch (e) {
+
+  Future<Either<String, String>> removeAccount(String id) async {
+    try {
+      ApiResponse res = await _bankingRepo.removeAccount(id);
+      if (res.statusCode == 200) {
+        return Left(res.data["message"]);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
       return Right(e.toString());
     }
   }
