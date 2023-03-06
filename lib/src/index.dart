@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/models/transaction.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -126,12 +127,12 @@ class MonetaCoreBanking {
     }
   }
 
-  Future<Either<Account, String>> resolveAccount(String accountNumber, String bankCode) async {
+  /// Resolves an account Number and Returns an Account object containing the Account Namae
+  Future<Either<Account, String>> resolveAccount(
+      String accountNumber, String bankCode) async {
     try {
-      ApiResponse res = await _bankingRepo.resolveAccount({
-        "account_number" : accountNumber,
-        "bank" : bankCode
-      });
+      ApiResponse res = await _bankingRepo
+          .resolveAccount({"account_number": accountNumber, "bank": bankCode});
       if (res.statusCode == 200) {
         Account account = Account.fromJson(res.data["data"]);
         return Left(account);
@@ -143,6 +144,23 @@ class MonetaCoreBanking {
       return Right(e.toString());
     }
   }
+
+  /// Returns Either a List of Transaction objects on success or error message
+  Future<Either<List<Transaction>, String>> getTransactions(String accountId) async {
+    try {
+      ApiResponse res = await _bankingRepo.getTransactions(accountId);
+      if (res.statusCode == 200) {
+        debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
+        assert(res.data["data"].runtimeType.toString().contains("List"));
+        List<Transaction> transactions = [];
+        for (var account in res.data["data"]) {
+          transactions.add(Transaction.fromJson(account));
+        }
+        return Left(transactions);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
 
   Future<Either<String, String>> removeAccount(String id) async {
     try {

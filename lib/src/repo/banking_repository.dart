@@ -80,6 +80,9 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getTransactions(String accountId) {
+    // TODO: implement getTransactions
+    throw UnimplementedError();
   Future<ApiResponse> removeAccount(String id) async {
     ApiResponse response = await api.call(
         method: HttpMethod.delete,

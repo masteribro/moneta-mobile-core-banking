@@ -2,6 +2,8 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
+import 'package:moneta_core_banking/src/models/account.dart';
+import 'package:moneta_core_banking/src/models/transaction.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -12,6 +14,7 @@ void main() {
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<Account, String> addAccountResponse;
   late Either<Account, String> resolveAccountResponse;
+  late Either<List<Transaction>, String> getTransactionsResponse;
   late Either<String, String> removeAccountResponse;
   String testToken;
   String? testID;
@@ -19,7 +22,7 @@ void main() {
   setUp(() async {
     testToken = "5|DLhoDiWFfy1WzBkThyeH3PNh9cAPaxACnfLTdn5b";
     testID = "1";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: true);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -77,6 +80,12 @@ void main() {
     }
   });
 
+  test('Test get transactions - Core Banking', () async {
+    getTransactionsResponse = await coreHandler.getTransactions("4");
+    if (getTransactionsResponse.isLeft){
+      debugPrint(getTransactionsResponse.left.length.toString());
+    } else {
+      debugPrint(getTransactionsResponse.right.toString());
   test('Test remove account - Core Banking', () async {
     removeAccountResponse = await coreHandler.removeAccount("4");
     if (resolveAccountResponse.isLeft){
