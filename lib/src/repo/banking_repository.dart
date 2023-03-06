@@ -78,4 +78,10 @@ class BankingRepository extends IBankingRepository {
     );
     return response;
   }
+
+  @override
+  Future<ApiResponse> getTransactions(String accountId) {
+    // TODO: implement getTransactions
+    throw UnimplementedError();
+  }
 }

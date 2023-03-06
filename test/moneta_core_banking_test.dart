@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
 import 'package:moneta_core_banking/src/models/account.dart';
+import 'package:moneta_core_banking/src/models/transaction.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -13,13 +14,14 @@ void main() {
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<Account, String> addAccountResponse;
   late Either<Account, String> resolveAccountResponse;
+  late Either<List<Transaction>, String> getTransactionsResponse;
   String testToken;
   String? testID;
 
   setUp(() async {
     testToken = "5|DLhoDiWFfy1WzBkThyeH3PNh9cAPaxACnfLTdn5b";
     testID = "1";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: true);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -74,6 +76,15 @@ void main() {
       debugPrint(resolveAccountResponse.left.accountName);
     } else {
       debugPrint(resolveAccountResponse.right.toString());
+    }
+  });
+
+  test('Test get transactions - Core Banking', () async {
+    getTransactionsResponse = await coreHandler.getTransactions("4");
+    if (getTransactionsResponse.isLeft){
+      debugPrint(getTransactionsResponse.left.length.toString());
+    } else {
+      debugPrint(getTransactionsResponse.right.toString());
     }
   });
 }
