@@ -20,7 +20,7 @@ class BankingRepository extends IBankingRepository {
   ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "banks/accounts/$id/transfer",
+      endpoint: "banks/$id/transfer",
       reqBody: request,
     );
     return response;
@@ -75,6 +75,15 @@ class BankingRepository extends IBankingRepository {
       method: HttpMethod.get,
       endpoint: "banks/acccounts/resolve",
       reqBody: request
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> removeAccount(String id) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.delete,
+        endpoint: "/banks/accounts/$id",
     );
     return response;
   }
