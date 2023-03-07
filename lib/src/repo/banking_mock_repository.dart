@@ -411,6 +411,18 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> removeAccount(String id) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Account deleted successfully"
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
   Future<ApiResponse> getTransactions(String accountId) async {
     await Future.delayed(const Duration(seconds: 1));
     if ((int.tryParse(accountId) ?? 0) > 3) {
@@ -478,59 +490,71 @@ class BankingRepositoryMock extends IBankingRepository {
             ],
           },
           requestOptions: RequestOptions(path: "")));
+    } else {
+      return ApiResponse(Response(
+          statusCode: 200,
+          data: {
+            "status": "success",
+            "data": [
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "Zenith Bank",
+                    "slug": "zenith_bank",
+                    "code": "044",
+                    "ussd": "*966#"
+                  }),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "25600",
+                  transactionTime: "11:50am",
+                  transactionState: "Success",
+                  source: "Elsewhere")
+                  .toJson(),
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "United Bank For Africa",
+                    "slug": "united-bank-for-africa",
+                    "code": "033",
+                    "ussd": "*919#"
+                  },),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "1670000000",
+                  transactionTime: "09:50am",
+                  transactionState: "Failed",
+                  source: "Moneta"
+              ).toJson(),
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "First Bank",
+                    "slug": "first_bank",
+                    "code": "011",
+                    "ussd": "*894#"
+                  }),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "100500",
+                  transactionTime: "09:50am",
+                  transactionState: "Success",
+                  source: "Moneta")
+                  .toJson(),
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "First Bank",
+                    "slug": "first_bank",
+                    "code": "011",
+                    "ussd": "*894#"
+                  }),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "100500",
+                  transactionTime: "09:50am",
+                  transactionState: "Success",
+                  source: "Moneta")
+                  .toJson(),
+            ],
+          },
+          requestOptions: RequestOptions(path: "")));
     }
-  Future<ApiResponse> removeAccount(String id) async {
-    await Future.delayed(const Duration(seconds: 3));
-    return ApiResponse(Response(
-        statusCode: 200,
-        data: {
-          "status": "success",
-          "data": [
-            Transaction(
-                    bank: Bank.fromJson({
-                      "name": "Kuda Bank",
-                      "slug": "kuda_bank",
-                      "code": "50211",
-                      "ussd": "*966#"
-                    }),
-                    accountName: "Simon Cowel",
-                    transactionType: "Credit",
-                    transactionAmount: "15200",
-                    transactionTime: "06:50am",
-                    transactionState: "Pending",
-                    source: "Moneta")
-                .toJson(),
-            Transaction(
-                    bank: Bank.fromJson({
-                      "name": "Zenith Bank",
-                      "slug": "zenith_bank",
-                      "code": "057",
-                      "ussd": "*966#"
-                    }),
-                    accountName: "Simon Cowel",
-                    transactionType: "Credit",
-                    transactionAmount: "55000",
-                    transactionTime: "10:50am",
-                    transactionState: "Failure",
-                    source: "Moneta")
-                .toJson(),
-            Transaction(
-                    bank: Bank.fromJson({
-                      "name": "First Bank",
-                      "slug": "first_bank",
-                      "code": "011",
-                      "ussd": "*894#"
-                    }),
-                    accountName: "Simon Cowel",
-                    transactionType: "Debit",
-                    transactionAmount: "100500",
-                    transactionTime: "09:50am",
-                    transactionState: "Success",
-                    source: "Moneta")
-                .toJson(),
-          ],
-          "message": "Account deleted successfully"
-        },
-        requestOptions: RequestOptions(path: "")));
   }
 }
