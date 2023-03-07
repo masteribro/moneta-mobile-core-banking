@@ -2,11 +2,6 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
-<<<<<<<<< Temporary merge branch 1
-=========
-import 'package:moneta_core_banking/src/models/account.dart';
-import 'package:moneta_core_banking/src/models/transaction.dart';
->>>>>>>>> Temporary merge branch 2
 
 void main() {
   late MonetaCoreBanking coreHandler;

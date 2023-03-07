@@ -490,6 +490,71 @@ class BankingRepositoryMock extends IBankingRepository {
             ],
           },
           requestOptions: RequestOptions(path: "")));
+    } else {
+      return ApiResponse(Response(
+          statusCode: 200,
+          data: {
+            "status": "success",
+            "data": [
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "Zenith Bank",
+                    "slug": "zenith_bank",
+                    "code": "044",
+                    "ussd": "*966#"
+                  }),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "25600",
+                  transactionTime: "11:50am",
+                  transactionState: "Success",
+                  source: "Elsewhere")
+                  .toJson(),
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "United Bank For Africa",
+                    "slug": "united-bank-for-africa",
+                    "code": "033",
+                    "ussd": "*919#"
+                  },),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "1670000000",
+                  transactionTime: "09:50am",
+                  transactionState: "Failed",
+                  source: "Moneta"
+              ).toJson(),
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "First Bank",
+                    "slug": "first_bank",
+                    "code": "011",
+                    "ussd": "*894#"
+                  }),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "100500",
+                  transactionTime: "09:50am",
+                  transactionState: "Success",
+                  source: "Moneta")
+                  .toJson(),
+              Transaction(
+                  bank: Bank.fromJson({
+                    "name": "First Bank",
+                    "slug": "first_bank",
+                    "code": "011",
+                    "ussd": "*894#"
+                  }),
+                  accountName: "Simon Cowel",
+                  transactionType: "Debit",
+                  transactionAmount: "100500",
+                  transactionTime: "09:50am",
+                  transactionState: "Success",
+                  source: "Moneta")
+                  .toJson(),
+            ],
+          },
+          requestOptions: RequestOptions(path: "")));
     }
   }
 }
