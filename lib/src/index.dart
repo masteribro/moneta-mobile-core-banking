@@ -93,6 +93,25 @@ class MonetaCoreBanking {
     }
   }
 
+  ///returns either List of [OnboardedBank]s on success or error message
+  Future<Either<List<OnboardedBank>, String>> getOnboardedBanks() async {
+    try {
+      ApiResponse res = await _bankingRepo.getOnboardedBanks();
+      if (res.statusCode == 200) {
+        assert(res.data["data"].runtimeType.toString().contains("List"));
+        List<OnboardedBank> bankList = [];
+        for (var bank in res.data["data"]) {
+          bankList.add(OnboardedBank.fromJson(bank));
+        }
+        return Left(bankList);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
   ///returns either GetAccounrsResponse on success or error message
   Future<Either<List<Account>, String>> getMyAccounts() async {
     try {

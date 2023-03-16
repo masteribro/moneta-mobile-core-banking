@@ -9,6 +9,7 @@ void main() {
   late Either<TransferResponse, String> transferResponse;
   late Either<Map, String> statementResponse;
   late Either<List<Bank>, String> getBanksResponse;
+  late Either<List<OnboardedBank>, String> getOnboardedBanksResponse;
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<Account, String> addAccountResponse;
   late Either<Account, String> resolveAccountResponse;
@@ -29,8 +30,8 @@ void main() {
   test('Test serialization on Core Banking Model', () {});
 
   /// NOTE: These tests make real network calls.
-  /// Only run these tests to verify actual Server Responses
-  ///
+  /// Only run these tests to verify actual Server Responses or change the
+  /// [coreHandler] [mock] to true
   test('Test get balance - Core Banking', () async {
     response = await coreHandler.getBalance(testID!);
     debugPrint(response.toString());
@@ -71,6 +72,12 @@ void main() {
     debugPrint(getBanksResponse.toString());
   });
 
+  test('Test get onboarded banks - Core Banking', () async {
+    getOnboardedBanksResponse = await coreHandler.getOnboardedBanks();
+    // debugPrint(getBanksResponse.left.first.name);
+    debugPrint(getOnboardedBanksResponse.toString());
+  });
+
   test('Test resolve account - Core Banking', () async {
     resolveAccountResponse = await coreHandler.resolveAccount("0739414875", "044");
     if (resolveAccountResponse.isLeft){
@@ -81,8 +88,8 @@ void main() {
   });
 
   test('Test remove account - Core Banking', () async {
-    removeAccountResponse = await coreHandler.removeAccount("4");
-    if (resolveAccountResponse.isLeft){
+    removeAccountResponse = await coreHandler.removeAccount("1");
+    if (removeAccountResponse.isLeft){
       debugPrint(removeAccountResponse.left);
     } else {
       debugPrint(removeAccountResponse.right.toString());

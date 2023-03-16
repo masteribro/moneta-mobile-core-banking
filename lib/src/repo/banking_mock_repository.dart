@@ -299,6 +299,26 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getOnboardedBanks() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "All Onboarded Banks Retrieved",
+          "data": [
+            {
+              "id": 1,
+              "name": "Zenith Bank",
+              "alias": "zenith-bank",
+              "code": "057"
+            }
+          ]
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
   Future<ApiResponse> getMyAccounts() async {
     await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(

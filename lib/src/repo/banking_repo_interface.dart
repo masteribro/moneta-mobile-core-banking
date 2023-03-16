@@ -11,6 +11,8 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> getAllBanks();
 
+  Future<ApiResponse> getOnboardedBanks();
+
   Future<ApiResponse> getMyAccounts();
 
   Future<ApiResponse> addAccount(Map<String, dynamic> request);

@@ -20,7 +20,7 @@ class BankingRepository extends IBankingRepository {
   ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "banks/$id/transfer",
+      endpoint: "/accounts/$id/transfer",
       reqBody: request,
     );
     return response;
@@ -30,7 +30,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> getBalance(String id) async {
     ApiResponse response = await api.call(
       method: HttpMethod.get,
-      endpoint: "accounts/$id/balance",
+      endpoint: "/accounts/$id/balance",
     );
     return response;
   }
@@ -39,7 +39,16 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> getAllBanks() async {
     ApiResponse response = await api.call(
       method: HttpMethod.get,
-      endpoint: "banks/all",
+      endpoint: "/banks/all",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getOnboardedBanks() async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/banks/onboarded",
     );
     return response;
   }
@@ -56,7 +65,7 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> addAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post, endpoint: "banks/accounts", reqBody: request);
+        method: HttpMethod.post, endpoint: "/accounts", reqBody: request);
     return response;
   }
 
@@ -64,7 +73,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> getStatement(String bankId) async {
     ApiResponse response = await api.call(
       method: HttpMethod.get,
-      endpoint: "banks/$bankId/transactions",
+      endpoint: "/banks/$bankId/transactions",
     );
     return response;
   }
@@ -83,7 +92,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> removeAccount(String id) async {
     ApiResponse response = await api.call(
         method: HttpMethod.delete,
-        endpoint: "/banks/accounts/$id",
+        endpoint: "/accounts/$id",
     );
     return response;
   }
