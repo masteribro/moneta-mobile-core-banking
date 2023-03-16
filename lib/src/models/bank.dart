@@ -11,11 +11,11 @@ class Bank {
     return name.toString();
   }
 
-  Bank.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    slug = json['slug'];
-    code = json['code'];
-    ussd = json['ussd'];
+  Bank.fromJson(Map<String, dynamic>? json) {
+    name = json?['name'];
+    slug = json?['slug'];
+    code = json?['code'];
+    ussd = json?['ussd'];
   }
 
   Map<String, dynamic> toJson() {
