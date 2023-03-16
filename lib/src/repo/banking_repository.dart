@@ -70,10 +70,10 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> getStatement(String bankId) async {
+  Future<ApiResponse> getStatement(String accountId) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.get,
-      endpoint: "/banks/$bankId/transactions",
+      method: HttpMethod.post,
+      endpoint: "/accounts/$accountId/statement",
     );
     return response;
   }
@@ -98,9 +98,12 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> getTransactions(String accountId) {
-    // TODO: implement getTransactions
-    throw UnimplementedError();
+  Future<ApiResponse> getTransactions(String accountId) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/accounts/$accountId/transactions",
+    );
+    return response;
   }
 
   @override
