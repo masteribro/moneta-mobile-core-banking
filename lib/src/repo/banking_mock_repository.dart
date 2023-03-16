@@ -299,6 +299,26 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getOnboardedBanks() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "All Onboarded Banks Retrieved",
+          "data": [
+            {
+              "id": 1,
+              "name": "Zenith Bank",
+              "alias": "zenith-bank",
+              "code": "057"
+            }
+          ]
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
   Future<ApiResponse> getMyAccounts() async {
     await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
@@ -393,19 +413,11 @@ class BankingRepositoryMock extends IBankingRepository {
         statusCode: 200,
         data: {
           "status": "success",
+          "message": "Account Resolved",
           "data": {
-            "id": 1,
-            "account_number": "0773175637",
-            "account_name": "Tijjani Yusuf",
-            "aggregator": 1,
-            "bank_code": "011",
-            "bank": {
-              "name": "First Bank of Nigeria",
-              "slug": "first-bank-of-nigeria",
-              "code": "011",
-              "ussd": "*894#"
-            },
-          },
+            "account_number": "3087813431",
+            "account_name": "MUONEME JOHNPAUL CHUKWUEMEKA"
+          }
         },
         requestOptions: RequestOptions(path: "")));
   }
@@ -556,5 +568,66 @@ class BankingRepositoryMock extends IBankingRepository {
           },
           requestOptions: RequestOptions(path: "")));
     }
+  }
+
+  @override
+  Future<ApiResponse> getBeneficiaries() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "data": [
+            {
+              "id": 1,
+              "account_number": "3087813431",
+              "account_name": "Johnpaul Muoneme",
+              "bank": {
+                "id": 11,
+                "name": "First Bank of Nigeria",
+                "slug": "first-bank-of-nigeria",
+                "code": "011",
+                "usssd": "*894#"
+              }
+            }
+          ],
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> addBeneficiary(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "data": {
+            "id": 1,
+            "account_number": request["account_number"],
+            "account_name": request["account_name"],
+            "aggregator": 1,
+            "bank_code": request["bank"],
+            "bank": {
+              "name": "First Bank of Nigeria",
+              "slug": "first-bank-of-nigeria",
+              "code": "011",
+              "ussd": "*894#"
+            },
+          },
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> removeBeneficiary(String beneficiaryId) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Beneficiary Removed"
+        },
+        requestOptions: RequestOptions(path: "")));
   }
 }

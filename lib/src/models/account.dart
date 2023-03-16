@@ -10,20 +10,20 @@ class Account {
     required this.bank,
   });
 
-  int id;
-  String accountNumber;
-  String accountName;
-  int aggregator;
-  String bankCode;
-  Bank bank;
+  int? id;
+  String? accountNumber;
+  String? accountName;
+  int? aggregator;
+  String? bankCode;
+  Bank? bank;
 
-  factory Account.fromJson(Map<String, dynamic> json) => Account(
-    id: json["id"],
-    accountNumber: json["account_number"],
-    accountName: json["account_name"],
-    aggregator: json["aggregator"],
-    bankCode: json["bank_code"],
-    bank: Bank.fromJson(json["bank"]),
+  factory Account.fromJson(Map<String, dynamic>? json) => Account(
+    id: json?["id"],
+    accountNumber: json?["account_number"],
+    accountName: json?["account_name"],
+    aggregator: json?["aggregator"],
+    bankCode: json?["bank_code"],
+    bank: Bank.fromJson(json?["bank"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -32,6 +32,6 @@ class Account {
     "account_name": accountName,
     "aggregator": aggregator,
     "bank_code": bankCode,
-    "bank": bank.toJson(),
+    "bank": bank?.toJson(),
   };
 }
