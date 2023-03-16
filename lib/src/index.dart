@@ -178,4 +178,57 @@ class MonetaCoreBanking {
       return Right(e.toString());
     }
   }
+
+  /// Returns Either a List of Account objects on success or error message
+  Future<Either<List<Account>, String>> getBeneficiaries() async {
+    try {
+      ApiResponse res = await _bankingRepo.getBeneficiaries();
+      if (res.statusCode == 200) {
+
+        debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
+        assert(res.data["data"].runtimeType.toString().contains("List"));
+
+        List<Account> beneficiaries = [];
+        for (var account in res.data["data"]) {
+          beneficiaries.add(Account.fromJson(account));
+        }
+        return Left(beneficiaries);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// returns either Account object on success or error message
+  Future<Either<Account, String>> addBeneficiary(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.addBeneficiary(request);
+
+      if (res.statusCode == 200) {
+        Account account = Account.fromJson(res.data["data"]);
+        return Left(account);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  Future<Either<String, String>> removeBeneficiary(String beneficiaryId) async {
+    try {
+      ApiResponse res = await _bankingRepo.removeBeneficiary(beneficiaryId);
+      if (res.statusCode == 200) {
+        return Left(res.data["message"]);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(e.toString());
+    }
+  }
 }
