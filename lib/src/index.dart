@@ -1,11 +1,10 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
-import 'package:moneta_core_banking/src/models/transaction.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
-import 'models/account.dart';
+import 'constants/constants.dart';
 import 'repo/banking_mock_repository.dart';
 import 'repo/banking_repo_interface.dart';
 
@@ -29,7 +28,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.getBalance(id);
 
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         Balance balance = Balance.fromJson(res.data["data"]);
         return Left(balance);
       } else {
@@ -45,7 +44,7 @@ class MonetaCoreBanking {
       Map<String, dynamic> request, String id) async {
     try {
       ApiResponse res = await _bankingRepo.doTransfer(request, id);
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         TransferResponse transferResponse =
             TransferResponse.fromJson(res.data["data"]);
         return Left(transferResponse);
@@ -63,7 +62,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.addAccount(request);
 
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         Account account = Account.fromJson(res.data["data"]);
         return Left(account);
       } else {
@@ -78,7 +77,7 @@ class MonetaCoreBanking {
   Future<Either<List<Bank>, String>> getAllBanks() async {
     try {
       ApiResponse res = await _bankingRepo.getAllBanks();
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         assert(res.data["data"].runtimeType.toString().contains("List"));
         List<Bank> bankList = [];
         for (var bank in res.data["data"]) {
@@ -97,7 +96,7 @@ class MonetaCoreBanking {
   Future<Either<List<OnboardedBank>, String>> getOnboardedBanks() async {
     try {
       ApiResponse res = await _bankingRepo.getOnboardedBanks();
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         assert(res.data["data"].runtimeType.toString().contains("List"));
         List<OnboardedBank> bankList = [];
         for (var bank in res.data["data"]) {
@@ -116,7 +115,7 @@ class MonetaCoreBanking {
   Future<Either<List<Account>, String>> getMyAccounts() async {
     try {
       ApiResponse res = await _bankingRepo.getMyAccounts();
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
         assert(res.data["data"].runtimeType.toString().contains("List"));
         List<Account> accountList = [];
@@ -136,7 +135,7 @@ class MonetaCoreBanking {
   Future<Either<Map, String>> getStatement(String bankId) async {
     try {
       ApiResponse res = await _bankingRepo.getStatement(bankId);
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data);
       } else {
         return Right(res.data["message"]);
@@ -152,7 +151,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo
           .resolveAccount({"account_number": accountNumber, "bank": bankCode});
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         Account account = Account.fromJson(res.data["data"]);
         return Left(account);
       } else {
@@ -167,7 +166,7 @@ class MonetaCoreBanking {
   Future<Either<String, String>> removeAccount(String id) async {
     try {
       ApiResponse res = await _bankingRepo.removeAccount(id);
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
         return Right(res.data["message"]);
@@ -182,7 +181,7 @@ class MonetaCoreBanking {
   Future<Either<List<Transaction>, String>> getTransactions(String accountId) async {
     try {
       ApiResponse res = await _bankingRepo.getTransactions(accountId);
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
         assert(res.data["data"].runtimeType.toString().contains("List"));
         List<Transaction> transactions = [];
@@ -202,7 +201,7 @@ class MonetaCoreBanking {
   Future<Either<List<Account>, String>> getBeneficiaries() async {
     try {
       ApiResponse res = await _bankingRepo.getBeneficiaries();
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
 
         debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
         assert(res.data["data"].runtimeType.toString().contains("List"));
@@ -226,7 +225,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.addBeneficiary(request);
 
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         Account account = Account.fromJson(res.data["data"]);
         return Left(account);
       } else {
@@ -240,7 +239,7 @@ class MonetaCoreBanking {
   Future<Either<String, String>> removeBeneficiary(String beneficiaryId) async {
     try {
       ApiResponse res = await _bankingRepo.removeBeneficiary(beneficiaryId);
-      if (res.statusCode == 200) {
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
         return Right(res.data["message"]);
