@@ -630,4 +630,32 @@ class BankingRepositoryMock extends IBankingRepository {
         },
         requestOptions: RequestOptions(path: "")));
   }
+
+  @override
+  Future<ApiResponse> resolveBank(String accountNumber) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Suggested Banks Retreived",
+          "data": [
+            {
+              "id": 14,
+              "name": "Guaranty Trust Bank",
+              "slug": "guaranty-trust-bank",
+              "code": "058",
+              "ussd": "*737#"
+            },
+            {
+              "id": 39,
+              "name": "Wema Bank",
+              "slug": "wema-bank",
+              "code": "035",
+              "ussd": "*945#"
+            }
+          ]
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
 }
