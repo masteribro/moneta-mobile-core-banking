@@ -20,7 +20,7 @@ class BankingRepository extends IBankingRepository {
   ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "banks/$id/transfer",
+      endpoint: "/accounts/$id/transfer",
       reqBody: request,
     );
     return response;
@@ -30,7 +30,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> getBalance(String id) async {
     ApiResponse response = await api.call(
       method: HttpMethod.get,
-      endpoint: "banks/$id/balance",
+      endpoint: "/accounts/$id/balance",
     );
     return response;
   }
@@ -39,7 +39,16 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> getAllBanks() async {
     ApiResponse response = await api.call(
       method: HttpMethod.get,
-      endpoint: "banks/all",
+      endpoint: "/banks/all",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getOnboardedBanks() async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/banks/onboarded",
     );
     return response;
   }
@@ -48,7 +57,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> getMyAccounts() async {
     ApiResponse response = await api.call(
       method: HttpMethod.get,
-      endpoint: "banks/accounts",
+      endpoint: "/accounts",
     );
     return response;
   }
@@ -56,15 +65,15 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> addAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post, endpoint: "banks/accounts", reqBody: request);
+        method: HttpMethod.post, endpoint: "/accounts", reqBody: request);
     return response;
   }
 
   @override
-  Future<ApiResponse> getStatement(String bankId) async {
+  Future<ApiResponse> getStatement(String accountId) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.get,
-      endpoint: "banks/$bankId/transactions",
+      method: HttpMethod.post,
+      endpoint: "/accounts/$accountId/statement",
     );
     return response;
   }
@@ -72,8 +81,8 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> resolveAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.get,
-      endpoint: "banks/acccounts/resolve",
+      method: HttpMethod.post,
+      endpoint: "/accounts/resolve",
       reqBody: request
     );
     return response;
@@ -83,7 +92,41 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> removeAccount(String id) async {
     ApiResponse response = await api.call(
         method: HttpMethod.delete,
-        endpoint: "/banks/accounts/$id",
+        endpoint: "/accounts/$id",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getTransactions(String accountId) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/accounts/$accountId/transactions",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getBeneficiaries() async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/beneficiaries",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> addBeneficiary(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.post, endpoint: "/beneficiaries", reqBody: request);
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> removeBeneficiary(String beneficiaryId) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.delete,
+      endpoint: "/beneficiaries/$beneficiaryId",
     );
     return response;
   }

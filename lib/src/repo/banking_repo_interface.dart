@@ -11,6 +11,8 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> getAllBanks();
 
+  Future<ApiResponse> getOnboardedBanks();
+
   Future<ApiResponse> getMyAccounts();
 
   Future<ApiResponse> addAccount(Map<String, dynamic> request);
@@ -19,5 +21,14 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> resolveAccount(Map<String, dynamic> request);
 
+  Future<ApiResponse> getTransactions(String accountId);
+
+  Future<ApiResponse> getBeneficiaries();
+
+  Future<ApiResponse> addBeneficiary(Map<String, dynamic> request);
+
   Future<ApiResponse> removeAccount(String id);
+
+  Future<ApiResponse> removeBeneficiary(String beneficiaryId);
+
 }

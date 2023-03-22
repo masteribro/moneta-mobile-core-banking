@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
+import '../../moneta_core_banking.dart';
+import '../models/transaction.dart';
+
 class BankingRepositoryMock extends IBankingRepository {
   final String token;
 
@@ -10,7 +13,7 @@ class BankingRepositoryMock extends IBankingRepository {
   @override
   Future<ApiResponse> doTransfer(
       Map<String, dynamic> request, String id) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -33,7 +36,7 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> getBalance(String id) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -53,7 +56,7 @@ class BankingRepositoryMock extends IBankingRepository {
   @override
   Future<ApiResponse> getAllBanks() async {
     // TODO: implement getAllBanks
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -296,8 +299,28 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getOnboardedBanks() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "All Onboarded Banks Retrieved",
+          "data": [
+            {
+              "id": 1,
+              "name": "Zenith Bank",
+              "alias": "zenith-bank",
+              "code": "057"
+            }
+          ]
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
   Future<ApiResponse> getMyAccounts() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -349,7 +372,7 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> addAccount(Map<String, dynamic> request) async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
@@ -382,17 +405,207 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> resolveAccount(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Account Resolved",
+          "data": {
+            "account_number": "3087813431",
+            "account_name": "MUONEME JOHNPAUL CHUKWUEMEKA"
+          }
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> removeAccount(String id) async {
     await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {"status": "success", "message": "Account deleted successfully"},
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> getTransactions(String accountId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    if ((int.tryParse(accountId) ?? 0) > 3) {
+      return ApiResponse(Response(
+          statusCode: 200,
+          data: {
+            "status": "success",
+            "data": [
+              Transaction(
+                      bank: Bank.fromJson({
+                        "name": "Zenith Bank",
+                        "slug": "zenith_bank",
+                        "code": "044",
+                        "ussd": "*966#"
+                      }),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "25600",
+                      transactionTime: "11:50am",
+                      transactionState: "Success",
+                      source: "Elsewhere")
+                  .toJson(),
+              Transaction(
+                      bank: Bank.fromJson(
+                        {
+                          "name": "United Bank For Africa",
+                          "slug": "united-bank-for-africa",
+                          "code": "033",
+                          "ussd": "*919#"
+                        },
+                      ),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "1670000000",
+                      transactionTime: "09:50am",
+                      transactionState: "Failed",
+                      source: "Moneta")
+                  .toJson(),
+              Transaction(
+                      bank: Bank.fromJson({
+                        "name": "First Bank",
+                        "slug": "first_bank",
+                        "code": "011",
+                        "ussd": "*894#"
+                      }),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "100500",
+                      transactionTime: "09:50am",
+                      transactionState: "Success",
+                      source: "Moneta")
+                  .toJson(),
+              Transaction(
+                      bank: Bank.fromJson({
+                        "name": "First Bank",
+                        "slug": "first_bank",
+                        "code": "011",
+                        "ussd": "*894#"
+                      }),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "100500",
+                      transactionTime: "09:50am",
+                      transactionState: "Success",
+                      source: "Moneta")
+                  .toJson(),
+            ],
+          },
+          requestOptions: RequestOptions(path: "")));
+    } else {
+      return ApiResponse(Response(
+          statusCode: 200,
+          data: {
+            "status": "success",
+            "data": [
+              Transaction(
+                      bank: Bank.fromJson({
+                        "name": "Zenith Bank",
+                        "slug": "zenith_bank",
+                        "code": "044",
+                        "ussd": "*966#"
+                      }),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "25600",
+                      transactionTime: "11:50am",
+                      transactionState: "Success",
+                      source: "Elsewhere")
+                  .toJson(),
+              Transaction(
+                      bank: Bank.fromJson(
+                        {
+                          "name": "United Bank For Africa",
+                          "slug": "united-bank-for-africa",
+                          "code": "033",
+                          "ussd": "*919#"
+                        },
+                      ),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "1670000000",
+                      transactionTime: "09:50am",
+                      transactionState: "Failed",
+                      source: "Moneta")
+                  .toJson(),
+              Transaction(
+                      bank: Bank.fromJson({
+                        "name": "First Bank",
+                        "slug": "first_bank",
+                        "code": "011",
+                        "ussd": "*894#"
+                      }),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "100500",
+                      transactionTime: "09:50am",
+                      transactionState: "Success",
+                      source: "Moneta")
+                  .toJson(),
+              Transaction(
+                      bank: Bank.fromJson({
+                        "name": "First Bank",
+                        "slug": "first_bank",
+                        "code": "011",
+                        "ussd": "*894#"
+                      }),
+                      accountName: "Simon Cowel",
+                      transactionType: "Debit",
+                      transactionAmount: "100500",
+                      transactionTime: "09:50am",
+                      transactionState: "Success",
+                      source: "Moneta")
+                  .toJson(),
+            ],
+          },
+          requestOptions: RequestOptions(path: "")));
+    }
+  }
+
+  @override
+  Future<ApiResponse> getBeneficiaries() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "data": [
+            {
+              "id": 1,
+              "account_number": "3087813431",
+              "account_name": "Johnpaul Muoneme",
+              "bank": {
+                "id": 11,
+                "name": "First Bank of Nigeria",
+                "slug": "first-bank-of-nigeria",
+                "code": "011",
+                "usssd": "*894#"
+              }
+            }
+          ],
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> addBeneficiary(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
         statusCode: 200,
         data: {
           "status": "success",
           "data": {
             "id": 1,
-            "account_number": "0773175637",
-            "account_name": "Tijjani Yusuf",
+            "account_number": request["account_number"],
+            "account_name": request["account_name"],
             "aggregator": 1,
-            "bank_code": "011",
+            "bank_code": request["bank"],
             "bank": {
               "name": "First Bank of Nigeria",
               "slug": "first-bank-of-nigeria",
@@ -405,11 +618,14 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> removeAccount(String id) async {
+  Future<ApiResponse> removeBeneficiary(String beneficiaryId) async {
     await Future.delayed(const Duration(seconds: 3));
     return ApiResponse(Response(
         statusCode: 200,
-        data: {"status": "success", "message": "Account deleted successfully"},
+        data: {
+          "status": "success",
+          "message": "Beneficiary Removed",
+        },
         requestOptions: RequestOptions(path: "")));
   }
 }
