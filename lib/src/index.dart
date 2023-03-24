@@ -178,7 +178,8 @@ class MonetaCoreBanking {
   }
 
   /// Returns Either a List of Transaction objects on success or error message
-  Future<Either<List<Transaction>, String>> getTransactions(String accountId) async {
+  Future<Either<List<Transaction>, String>> getTransactions(
+      String accountId) async {
     try {
       ApiResponse res = await _bankingRepo.getTransactions(accountId);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -202,7 +203,6 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.getBeneficiaries();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-
         debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
         assert(res.data["data"].runtimeType.toString().contains("List"));
 
@@ -243,6 +243,48 @@ class MonetaCoreBanking {
         return Left(res.data["message"]);
       } else {
         return Right(res.data["message"]);
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(e.toString());
+    }
+  }
+
+  Future<Either<String, String>> verifyPin(Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.verifyPin(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        return Left(res.data["data"]);
+      } else {
+        return Right(res.data["¬"]);
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(e.toString());
+    }
+  }
+
+  Future<Either<String, String>> createPin(Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.createPin(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        return Left(res.data["data"]);
+      } else {
+        return Right(res.data["¬"]);
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(e.toString());
+    }
+  }
+
+  Future<Either<String, String>> updatePin(Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.updatePin(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        return Left(res.data["data"]);
+      } else {
+        return Right(res.data["¬"]);
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());

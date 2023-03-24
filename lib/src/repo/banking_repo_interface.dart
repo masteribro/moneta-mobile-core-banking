@@ -1,6 +1,5 @@
 import 'package:moneta_base_library/lib_response.dart';
 
-
 abstract class IBankingRepository {
   Future<ApiResponse> doTransfer(
     Map<String, dynamic> request,
@@ -31,4 +30,9 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> removeBeneficiary(String beneficiaryId);
 
+  Future<ApiResponse> verifyPin(Map<String, dynamic> request);
+
+  Future<ApiResponse> createPin(Map<String, dynamic> request);
+
+  Future<ApiResponse> updatePin(Map<String, dynamic> request);
 }

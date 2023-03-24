@@ -81,18 +81,17 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> resolveAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.post,
-      endpoint: "/accounts/resolve",
-      reqBody: request
-    );
+        method: HttpMethod.post,
+        endpoint: "/accounts/resolve",
+        reqBody: request);
     return response;
   }
 
   @override
   Future<ApiResponse> removeAccount(String id) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.delete,
-        endpoint: "/accounts/$id",
+      method: HttpMethod.delete,
+      endpoint: "/accounts/$id",
     );
     return response;
   }
@@ -128,6 +127,39 @@ class BankingRepository extends IBankingRepository {
       method: HttpMethod.delete,
       endpoint: "/beneficiaries/$beneficiaryId",
     );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> verifyPin(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.post,
+      endpoint: "/transaction/pin/verify",
+      reqBody: request,
+    );
+
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> createPin(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.post,
+      endpoint: "/transaction/pin",
+      reqBody: request,
+    );
+
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> updatePin(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.post,
+      endpoint: "/transaction/pin/update",
+      reqBody: request,
+    );
+
     return response;
   }
 }

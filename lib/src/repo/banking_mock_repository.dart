@@ -628,4 +628,22 @@ class BankingRepositoryMock extends IBankingRepository {
         },
         requestOptions: RequestOptions(path: "")));
   }
+
+  @override
+  Future<ApiResponse> createPin(Map<String, dynamic> request) {
+    // TODO: implement createPin
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> verifyPin(Map<String, dynamic> request) {
+    // TODO: implement verifyPin
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> updatePin(Map<String, dynamic> request) {
+    // TODO: implement updatePin
+    throw UnimplementedError();
+  }
 }
