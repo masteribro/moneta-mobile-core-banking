@@ -9,6 +9,7 @@ void main() {
   late Either<TransferResponse, String> transferResponse;
   late Either<Map, String> statementResponse;
   late Either<List<Bank>, String> getBanksResponse;
+  late Either<List<Bank>, String> resolveResponse;
   late Either<List<OnboardedBank>, String> getOnboardedBanksResponse;
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<Account, String> addAccountResponse;
@@ -70,6 +71,12 @@ void main() {
     getBanksResponse = await coreHandler.getAllBanks();
     // debugPrint(getBanksResponse.left.first.name);
     debugPrint(getBanksResponse.toString());
+  });
+
+  test('Test resolve bank - Core Banking', () async {
+    resolveResponse = await coreHandler.resolveBank("3087813431");
+    // debugPrint(getBanksResponse.left.first.name);
+    debugPrint(resolveResponse.toString());
   });
 
   test('Test get onboarded banks - Core Banking', () async {

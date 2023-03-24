@@ -159,7 +159,15 @@ class BankingRepository extends IBankingRepository {
       endpoint: "/transaction/pin/update",
       reqBody: request,
     );
+    return response;
+  }
 
+  @override
+  Future<ApiResponse> resolveBank(String accountNumber) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.post,
+        endpoint: "/banks/resolve",
+        reqBody: {"account_number": accountNumber});
     return response;
   }
 }
