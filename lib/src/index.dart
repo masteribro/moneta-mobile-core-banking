@@ -273,7 +273,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.verifyPin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        return Left(res.data["data"]);
+        return Left(res.data["message"]);
       } else {
         return Right(res.data["message"]);
       }
