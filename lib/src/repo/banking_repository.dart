@@ -170,4 +170,13 @@ class BankingRepository extends IBankingRepository {
         reqBody: {"account_number": accountNumber});
     return response;
   }
+
+  @override
+  Future<ApiResponse> hasPin() async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/user",
+    );
+    return response;
+  }
 }

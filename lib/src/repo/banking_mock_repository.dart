@@ -674,4 +674,10 @@ class BankingRepositoryMock extends IBankingRepository {
         },
         requestOptions: RequestOptions(path: "")));
   }
+
+  @override
+  Future<ApiResponse> hasPin() {
+    // TODO: implement getUser
+    throw UnimplementedError();
+  }
 }

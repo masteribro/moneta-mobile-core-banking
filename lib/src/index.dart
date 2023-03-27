@@ -275,7 +275,7 @@ class MonetaCoreBanking {
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["data"]);
       } else {
-        return Right(res.data["¬"]);
+        return Right(res.data["message"]);
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
@@ -289,7 +289,7 @@ class MonetaCoreBanking {
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["data"]);
       } else {
-        return Right(res.data["¬"]);
+        return Right(res.data["message"]);
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
@@ -303,7 +303,21 @@ class MonetaCoreBanking {
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["data"]);
       } else {
-        return Right(res.data["¬"]);
+        return Right(res.data["message"]);
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(e.toString());
+    }
+  }
+
+  Future<Either<bool, String>> hasPin() async {
+    try {
+      ApiResponse res = await _bankingRepo.hasPin();
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        return Left(res.data["data"]["pin"]);
+      } else {
+        return Right(res.data["message"]);
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());

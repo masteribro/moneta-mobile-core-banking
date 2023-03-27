@@ -37,4 +37,7 @@ abstract class IBankingRepository {
   Future<ApiResponse> createPin(Map<String, dynamic> request);
 
   Future<ApiResponse> updatePin(Map<String, dynamic> request);
+
+  Future<ApiResponse> hasPin();
+
 }
