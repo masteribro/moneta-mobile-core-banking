@@ -287,7 +287,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.createPin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        return Left(res.data["data"]);
+        return Left(res.data["message"]);
       } else {
         return Right(res.data["message"]);
       }
@@ -301,7 +301,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.updatePin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        return Left(res.data["data"]);
+        return Left(res.data["message"]);
       } else {
         return Right(res.data["message"]);
       }
