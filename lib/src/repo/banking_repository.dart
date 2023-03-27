@@ -134,7 +134,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> verifyPin(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "/transaction/pin/verify",
+      endpoint: "/transactions/pin/verify",
       reqBody: request,
     );
 
@@ -145,7 +145,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> createPin(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "/transaction/pin",
+      endpoint: "/transactions/pin",
       reqBody: request,
     );
 
@@ -156,7 +156,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> updatePin(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "/transaction/pin/update",
+      endpoint: "/transactions/pin/update",
       reqBody: request,
     );
     return response;
