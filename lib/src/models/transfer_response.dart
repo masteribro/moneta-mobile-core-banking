@@ -1,18 +1,19 @@
 /// Contains a List of Booleans corresponding to the
 /// List of recipient objects to be transferred.
+
 class TransferResponse {
-  List<bool> recipientStatus;
+  TransferResponse({
+    this.data,
+  });
 
-  TransferResponse(
-      {required this.recipientStatus,});
+  List<bool>? data;
 
-  factory TransferResponse.fromJson(Map<String, dynamic>? json) => TransferResponse(
-    recipientStatus: json?["data"],
+  factory TransferResponse.fromJson(Map<String, dynamic> json) => TransferResponse(
+    data: json["data"] == null ? [] : List<bool>.from(json["data"]!.map((x) => x)),
   );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['data'] = recipientStatus;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x)),
+  };
 }
+
