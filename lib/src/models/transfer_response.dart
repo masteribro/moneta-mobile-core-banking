@@ -1,48 +1,18 @@
+/// Contains a List of Booleans corresponding to the
+/// List of recipient objects to be transferred.
 class TransferResponse {
-  String? responseCode;
-  String? responseDescription;
-  String? description;
-  String? transactionReference;
-  String? posted;
-  String? transactionStatus;
-  String? postingDate;
-  String? postingReference;
-  String? creditedAccount;
+  List<bool> recipientStatus;
 
   TransferResponse(
-      {this.responseCode,
-      this.responseDescription,
-      this.description,
-      this.transactionReference,
-      this.posted,
-      this.transactionStatus,
-      this.postingDate,
-      this.postingReference,
-      this.creditedAccount});
+      {required this.recipientStatus,});
 
-  TransferResponse.fromJson(Map<String, dynamic> json) {
-    responseCode = json['responseCode'];
-    responseDescription = json['responseDescription'];
-    description = json['description'];
-    transactionReference = json['transactionReference'];
-    posted = json['posted'];
-    transactionStatus = json['transactionStatus'];
-    postingDate = json['postingDate'];
-    postingReference = json['postingReference'];
-    creditedAccount = json['creditedAccount'];
-  }
+  factory TransferResponse.fromJson(Map<String, dynamic>? json) => TransferResponse(
+    recipientStatus: json?["data"],
+  );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['responseCode'] = responseCode;
-    data['responseDescription'] = responseDescription;
-    data['description'] = description;
-    data['transactionReference'] = transactionReference;
-    data['posted'] = posted;
-    data['transactionStatus'] = transactionStatus;
-    data['postingDate'] = postingDate;
-    data['postingReference'] = postingReference;
-    data['creditedAccount'] = creditedAccount;
+    data['data'] = recipientStatus;
     return data;
   }
 }

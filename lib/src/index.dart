@@ -45,8 +45,9 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.doTransfer(request, id);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        assert (res.data["data"].runtimeType.toString().contains("List"));
         TransferResponse transferResponse =
-            TransferResponse.fromJson(res.data["data"]);
+            TransferResponse.fromJson(res.data);
         return Left(transferResponse);
       } else {
         return Right(res.data["message"]);
@@ -165,13 +166,13 @@ class MonetaCoreBanking {
   }
 
   /// Resolves an account Number and Returns an Account object containing the Account Namae
-  Future<Either<Account, String>> resolveAccount(
+  Future<Either<ResolvedAccount, String>> resolveAccount(
       String accountNumber, String bankCode) async {
     try {
       ApiResponse res = await _bankingRepo
           .resolveAccount({"account_number": accountNumber, "bank": bankCode});
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        Account account = Account.fromJson(res.data["data"]);
+        ResolvedAccount account = ResolvedAccount.fromJson(res.data["data"]);
         return Left(account);
       } else {
         return Right(res.data["message"]);

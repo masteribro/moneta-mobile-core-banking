@@ -6,3 +6,4 @@ export 'package:moneta_core_banking/src/models/bank_asset_mapping.dart';
 export 'package:moneta_core_banking/src/models/onboarded_bank.dart';
 export 'package:moneta_core_banking/src/models/transfer_response.dart';
 export 'package:moneta_core_banking/src/models/transaction.dart';
+export 'package:moneta_core_banking/src/models/resolved_account.dart';

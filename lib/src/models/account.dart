@@ -6,14 +6,21 @@ class Account {
     required this.accountNumber,
     required this.accountName,
     required this.aggregator,
+    @Deprecated("Bank Code has been discontinued, use [bank.code] instead to "
+        "access the Bank Code")
     required this.bankCode,
     required this.bank,
-  });
+  }){
+    /// Prefer the bank.code
+    bankCode = bank?.code;
+  }
 
   int? id;
   String? accountNumber;
   String? accountName;
   int? aggregator;
+  @Deprecated("Bank Code has been discontinued, use [bank.code] instead to "
+      "access the Bank Code")
   String? bankCode;
   Bank? bank;
 
@@ -22,7 +29,7 @@ class Account {
     accountNumber: json?["account_number"],
     accountName: json?["account_name"],
     aggregator: json?["aggregator"],
-    bankCode: json?["bank_code"],
+    bankCode: Bank.fromJson(json?["bank"]).code,
     bank: Bank.fromJson(json?["bank"]),
   );
 

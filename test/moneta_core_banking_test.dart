@@ -13,7 +13,7 @@ void main() {
   late Either<List<OnboardedBank>, String> getOnboardedBanksResponse;
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<Account, String> addAccountResponse;
-  late Either<Account, String> resolveAccountResponse;
+  late Either<ResolvedAccount, String> resolveAccountResponse;
   late Either<String, String> removeAccountResponse;
   late Either<List<Transaction>, String> getTransactionsResponse;
   late Either<List<Account>, String> getBeneficiariesResponse;
@@ -40,10 +40,19 @@ void main() {
 
   test('Test do transfer - Core Banking', () async {
     transferResponse = await coreHandler.transfer({
-      "amount": 100,
-      "account_number": 3087813431,
-    }, "011");
-    debugPrint(transferResponse.toString());
+      "transfer": [
+        {
+          "amount": "100",
+          "account": "3087813431",
+          "description": "Staging Moneta Core Banking Mobile App Test DO TRANSFER",
+          "bank" : "011",
+          // "scheduled": true,
+          // "scheduled_time: DateTime.now()
+        },
+      ]},
+        "3" // Account ID To Transfer From
+    );
+    transferResponse.mapLeft((left) => debugPrint(left.toJson().toString()));
   });
 
   test('Test get account statement - Core Banking', () async {
@@ -61,8 +70,9 @@ void main() {
 
   test('Test add a new account - Core Banking', () async {
     addAccountResponse = await coreHandler.addAccount({
-      "account_number" : "3087813431",
-      "bank" : "011", // firstBank
+      "account_number": "3087813431", // Resolved Bank
+      "account_name": "Johnpaul Muoneme", // Resolved Account
+      "bank": "057" //  FirstBank
     });
     debugPrint(addAccountResponse.toString());
   });
@@ -104,7 +114,7 @@ void main() {
   });
 
   test('Test get transactions - Core Banking', () async {
-    getTransactionsResponse = await coreHandler.getTransactions("4");
+    getTransactionsResponse = await coreHandler.getTransactions("3");
     if (getTransactionsResponse.isLeft){
       debugPrint(getTransactionsResponse.left.length.toString());
     } else {
