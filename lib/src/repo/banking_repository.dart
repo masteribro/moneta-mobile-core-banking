@@ -179,4 +179,22 @@ class BankingRepository extends IBankingRepository {
     );
     return response;
   }
+
+  @override
+  Future<ApiResponse> getAllNotifications() async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/notifications",
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getNotification(String notificationId) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/notifications/$notificationId",
+    );
+    return response;
+  }
 }

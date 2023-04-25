@@ -2,6 +2,7 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
+import 'package:moneta_core_banking/src/models/notification_model.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -19,13 +20,15 @@ void main() {
   late Either<List<Account>, String> getBeneficiariesResponse;
   late Either<Account, String> addBeneficiaryResponse;
   late Either<String, String> removeBeneficiaryResponse;
+  late Either<List<NotificationModel>, String> getAllNotificationsResponse;
+  late Either<NotificationModel, String> getNotificationResponse;
   String testToken;
   String? testID;
 
   setUp(() async {
-    testToken = "375|k6FSUlfCn2NxkjXw1mkRre9DLzgRwfLyUEKJ4PUp";
+    testToken = "377|rIiEIuJLfFWiOYhbmuAIVC4fqj1oqUyi4HoUhoyG";
     testID = "3";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: true);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -143,5 +146,21 @@ void main() {
   test('Test remove beneficiary - Core Banking', () async {
     removeBeneficiaryResponse = await coreHandler.removeBeneficiary("1");
     debugPrint(removeBeneficiaryResponse.toString());
+  });
+
+  test('Test get all notifications - Core Banking', () async {
+    getAllNotificationsResponse = await coreHandler.getAllNotifications();
+    if (getAllNotificationsResponse.isLeft){
+      debugPrint(getAllNotificationsResponse.left.toString());
+    }
+    debugPrint(getAllNotificationsResponse.toString()) ;
+  });
+
+  test('Test get single notification - Core Banking', () async {
+    getNotificationResponse = await coreHandler.getNotification(testID ?? "5");
+    if (getNotificationResponse.isLeft){
+      debugPrint(getNotificationResponse.left.toString());
+    }
+    debugPrint(getNotificationResponse.toString()) ;
   });
 }

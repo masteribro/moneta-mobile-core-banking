@@ -680,4 +680,82 @@ class BankingRepositoryMock extends IBankingRepository {
     // TODO: implement getUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<ApiResponse> getAllNotifications() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Notification Retreived",
+          "data": [
+            {
+            "id": 1,
+            "title": "Title",
+            "description": "I am the description",
+            "status": "unread",
+            "type": {
+              "id": 1,
+              "name": "transaction"
+            },
+            "user": {
+              "id": 1,
+              "name": "Johnpaul Muoneme",
+              "email": "johnpaul.muoneme@dreamlabs.com.ng",
+              "phone": null,
+              "pin": true
+            }
+          },
+            {
+              "id": 2,
+              "title": "Second Title",
+              "description": "I am the second description",
+              "status": "read",
+              "type": {
+                "id": 1,
+                "name": "transaction"
+              },
+              "user": {
+                "id": 1,
+                "name": "Johnpaul Muoneme",
+                "email": "johnpaul.muoneme@dreamlabs.com.ng",
+                "phone": null,
+                "pin": true
+              }
+            }
+          ]
+        },
+        requestOptions: RequestOptions(path: ""))
+    );
+  }
+
+  @override
+  Future<ApiResponse> getNotification(String notificationId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Notification Retreived",
+          "data": {
+            "id": 1,
+            "title": "Title",
+            "description": "I am the description",
+            "status": "unread",
+            "type": {
+              "id": 1,
+              "name": "transaction"
+            },
+            "user": {
+              "id": 1,
+              "name": "Johnpaul Muoneme",
+              "email": "johnpaul.muoneme@dreamlabs.com.ng",
+              "phone": null,
+              "pin": true
+            }
+          }
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
 }
