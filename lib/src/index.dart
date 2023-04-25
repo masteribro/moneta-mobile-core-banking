@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/models/notification_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -45,9 +46,8 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.doTransfer(request, id);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        assert (res.data["data"].runtimeType.toString().contains("List"));
-        TransferResponse transferResponse =
-            TransferResponse.fromJson(res.data);
+        assert(res.data["data"].runtimeType.toString().contains("List"));
+        TransferResponse transferResponse = TransferResponse.fromJson(res.data);
         return Left(transferResponse);
       } else {
         return Right(res.data["message"]);
@@ -322,6 +322,43 @@ class MonetaCoreBanking {
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
+      return Right(e.toString());
+    }
+  }
+
+  /// Returns Either a List of Notification objects on success or error message
+  Future<Either<List<NotificationModel>, String>> getAllNotifications() async {
+    try {
+      ApiResponse res = await _bankingRepo.getAllNotifications();
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
+        assert(res.data["data"].runtimeType.toString().contains("List"));
+        List<NotificationModel> notifications = [];
+        for (var account in res.data["data"]) {
+          notifications.add(NotificationModel.fromJson(account));
+        }
+        return Left(notifications);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// Returns Either a Notification object on success or error message
+  Future<Either<NotificationModel, String>> getNotification(
+      String notificationId) async {
+    try {
+      ApiResponse res = await _bankingRepo.getNotification(notificationId);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        NotificationModel notification =
+            NotificationModel.fromJson(res.data["data"]);
+        return Left(notification);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
       return Right(e.toString());
     }
   }

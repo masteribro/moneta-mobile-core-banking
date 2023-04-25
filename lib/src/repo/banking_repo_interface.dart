@@ -40,4 +40,8 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> hasPin();
 
+  Future<ApiResponse> getAllNotifications();
+
+  Future<ApiResponse> getNotification(String notificationId);
+
 }
