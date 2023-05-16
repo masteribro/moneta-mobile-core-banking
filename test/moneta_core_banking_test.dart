@@ -52,10 +52,19 @@ void main() {
           // "scheduled": true,
           // "scheduled_time: DateTime.now()
         },
+        {
+          "amount": "100",
+          "account": "3087813431",
+          "description": "Staging Moneta Core Banking Mobile App Test DO TRANSFER",
+          "bank" : "011",
+          // "scheduled": true,
+          // "scheduled_time: DateTime.now()
+        },
       ]},
         "3" // Account ID To Transfer From
     );
-    transferResponse.mapLeft((left) => debugPrint(left.toJson().toString()));
+    print(transferResponse.left.data);
+    transferResponse.mapLeft((left) => debugPrint(left.toString()));
   });
 
   test('Test get account statement - Core Banking', () async {
@@ -146,6 +155,29 @@ void main() {
   test('Test remove beneficiary - Core Banking', () async {
     removeBeneficiaryResponse = await coreHandler.removeBeneficiary("1");
     debugPrint(removeBeneficiaryResponse.toString());
+  });
+
+  test('Test create pin - Core Banking', () async {
+    Either<String, String> response = await coreHandler.createPin({'pin': '1234'});
+    debugPrint(response.toString());
+  });
+
+  test('Test update pin - Core Banking', () async {
+    Either<String, String> response = await coreHandler.updatePin({
+      'old_pin': '1234',
+      'pin': '1234',
+    });
+    debugPrint(response.left.toString());
+  });
+
+  test('Test verify pin - Core Banking', () async {
+    Either<String, String> response = await coreHandler.verifyPin({'pin': '1234'});
+    debugPrint(response.left.toString());
+  });
+
+  test('Test has pin - Core Banking', () async {
+    Either<bool, String> response = await coreHandler.hasPin();
+    debugPrint(response.left.toString());
   });
 
   test('Test get all notifications - Core Banking', () async {

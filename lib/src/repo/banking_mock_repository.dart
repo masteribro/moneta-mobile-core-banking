@@ -3,7 +3,6 @@ import 'package:moneta_base_library/moneta_base_library.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
 import '../../moneta_core_banking.dart';
-import '../models/transaction.dart';
 
 class BankingRepositoryMock extends IBankingRepository {
   final String token;
@@ -13,23 +12,23 @@ class BankingRepositoryMock extends IBankingRepository {
   @override
   Future<ApiResponse> doTransfer(
       Map<String, dynamic> request, String id) async {
+    List<bool> dataListResponse = [];
+
     await Future.delayed(const Duration(seconds: 1));
+    if (request["transfer"].runtimeType.toString().contains("List")){
+      // print(request["transfer"]);
+      for (var value in request["transfer"]){
+        dataListResponse.add(true);
+      }
+    } else {
+      throw Exception("Couldn't set data List");
+    }
     return ApiResponse(Response(
         statusCode: 200,
         data: {
           "status": "success",
           "message": "Transfer was successful",
-          "data": {
-            "responseCode": "00",
-            "responseDescription": "SUCCESSFUL",
-            "description": "FOOD TRANSFER",
-            "transactionReference": "MNTX-REF-000123-220223030513",
-            "posted": "N",
-            "transactionStatus": "FAILED",
-            "postingDate": null,
-            "postingReference": "ZM--AG-2728",
-            "creditedAccount": "3087813431"
-          }
+          "data": dataListResponse
         },
         requestOptions: RequestOptions(path: "")));
   }
@@ -630,21 +629,42 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> createPin(Map<String, dynamic> request) {
-    // TODO: implement createPin
-    throw UnimplementedError();
+  Future<ApiResponse> createPin(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Transaction pin set successfully",
+          "data": []
+        },
+        requestOptions: RequestOptions(path: "")));
   }
 
   @override
-  Future<ApiResponse> verifyPin(Map<String, dynamic> request) {
-    // TODO: implement verifyPin
-    throw UnimplementedError();
+  Future<ApiResponse> verifyPin(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Transaction pin verified",
+          "data": []
+        },
+        requestOptions: RequestOptions(path: "")));
   }
 
   @override
-  Future<ApiResponse> updatePin(Map<String, dynamic> request) {
-    // TODO: implement updatePin
-    throw UnimplementedError();
+  Future<ApiResponse> updatePin(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Transaction pin updated successfully",
+          "data": []
+        },
+        requestOptions: RequestOptions(path: "")));
   }
 
   @override
@@ -676,9 +696,36 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> hasPin() {
-    // TODO: implement getUser
-    throw UnimplementedError();
+  Future<ApiResponse> hasPin() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "message": "User Retreived",
+          "data": {
+            "id": 3,
+            "name": "Johnpaul Muoneme",
+            "email": "johnpaul.muoneme@dreamlabs.com.ng",
+            "phone": null,
+            "pin": true,
+            "accounts": [
+              {
+                "id": 2,
+                "account_number": "2407834143",
+                "account_name": "JOHNPAUL CHUKWUEMEKA MUONEME",
+                "aggregator": 0,
+                "bank": {
+                  "id": "41",
+                  "name": "Zenith Bank",
+                  "slug": "zenith-bank",
+                  "code": "057",
+                  "ussd": "*966#"
+                }
+              }
+            ]
+          }
+        },
+        requestOptions: RequestOptions(path: "")));
   }
 
   @override
