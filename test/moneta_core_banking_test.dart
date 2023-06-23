@@ -2,7 +2,6 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
-import 'package:moneta_core_banking/src/models/notification_model.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -13,7 +12,6 @@ void main() {
   late Either<List<Bank>, String> resolveResponse;
   late Either<List<OnboardedBank>, String> getOnboardedBanksResponse;
   late Either<List<Account>, String> getAllAccountsResponse;
-  late Either<Account, String> addAccountResponse;
   late Either<ResolvedAccount, String> resolveAccountResponse;
   late Either<String, String> removeAccountResponse;
   late Either<List<Transaction>, String> getTransactionsResponse;
@@ -63,7 +61,7 @@ void main() {
       ]},
         "3" // Account ID To Transfer From
     );
-    print(transferResponse.left.data);
+    // print(transferResponse.left.data);
     transferResponse.mapLeft((left) => debugPrint(left.toString()));
   });
 
@@ -78,15 +76,6 @@ void main() {
       debugPrint(getAllAccountsResponse.left.toString());
     }
     debugPrint(getAllAccountsResponse.toString()) ;
-  });
-
-  test('Test add a new account - Core Banking', () async {
-    addAccountResponse = await coreHandler.addAccount({
-      "account_number": "3087813431", // Resolved Bank
-      "account_name": "Johnpaul Muoneme", // Resolved Account
-      "bank": "057" //  FirstBank
-    });
-    debugPrint(addAccountResponse.toString());
   });
 
   test('Test get all banks - Core Banking', () async {

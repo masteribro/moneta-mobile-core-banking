@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
@@ -18,6 +19,9 @@ class BankingRepositoryMock extends IBankingRepository {
     if (request["transfer"].runtimeType.toString().contains("List")){
       // print(request["transfer"]);
       for (var value in request["transfer"]){
+        if (kDebugMode){
+          print(value.toString());
+        }
         dataListResponse.add(true);
       }
     } else {
@@ -802,6 +806,45 @@ class BankingRepositoryMock extends IBankingRepository {
               "pin": true
             }
           }
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> validateAccount(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "An OTP has been sent to your the phone number associated with the account",
+          "data": {
+            "phone_number": "070335****8"
+          }
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> verifyAccount(Map<String, dynamic> request) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "data": {
+            "id": 1,
+            "account_number": "0773175637",
+            "account_name": "Tijjani Yusuf",
+            "aggregator": 1,
+            "bank_code": "011",
+            "bank": {
+              "name": "First Bank of Nigeria",
+              "slug": "first-bank-of-nigeria",
+              "code": "011",
+              "ussd": "*894#"
+            },
+          },
         },
         requestOptions: RequestOptions(path: "")));
   }

@@ -1,7 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
-import 'package:moneta_core_banking/src/models/notification_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -57,15 +56,32 @@ class MonetaCoreBanking {
     }
   }
 
-  /// returns either AccountInfo on success or error message
-  Future<Either<Account, String>> addAccount(
+  /// returns either the phone number to receive OTP on success or error message
+  Future<Either<String, String>> validateAccount(
       Map<String, dynamic> request) async {
     try {
-      ApiResponse res = await _bankingRepo.addAccount(request);
+      ApiResponse res = await _bankingRepo.validateAccount(request);
 
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        Account account = Account.fromJson(res.data["data"]);
-        return Left(account);
+        String phoneNumber = res.data["data"]["phone_number"];
+        return Left(phoneNumber);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// returns either a success message on success or error message
+  Future<Either<String, String>> verifyAccount(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.validateAccount(request);
+
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        String data = res.data["data"].toString();
+        return Left(data);
       } else {
         return Right(res.data["message"]);
       }
@@ -131,7 +147,7 @@ class MonetaCoreBanking {
     }
   }
 
-  ///returns either GetAccounrsResponse on success or error message
+  ///returns either GetAccountsResponse on success or error message
   Future<Either<List<Account>, String>> getMyAccounts() async {
     try {
       ApiResponse res = await _bankingRepo.getMyAccounts();
@@ -165,7 +181,7 @@ class MonetaCoreBanking {
     }
   }
 
-  /// Resolves an account Number and Returns an Account object containing the Account Namae
+  /// Resolves an account Number and Returns an Account object containing the Account Name
   Future<Either<ResolvedAccount, String>> resolveAccount(
       String accountNumber, String bankCode) async {
     try {

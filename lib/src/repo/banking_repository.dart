@@ -197,4 +197,18 @@ class BankingRepository extends IBankingRepository {
     );
     return response;
   }
+
+  @override
+  Future<ApiResponse> validateAccount(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.post, endpoint: "/accounts/validate", reqBody: request);
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> verifyAccount(Map<String, dynamic> request) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.post, endpoint: "/accounts/verify", reqBody: request);
+    return response;
+  }
 }
