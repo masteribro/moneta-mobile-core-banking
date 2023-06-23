@@ -77,7 +77,7 @@ class MonetaCoreBanking {
   Future<Either<VerifyAccountModel, String>> verifyAccount(
       Map<String, dynamic> request) async {
     try {
-      ApiResponse res = await _bankingRepo.validateAccount(request);
+      ApiResponse res = await _bankingRepo.verifyAccount(request);
 
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         VerifyAccountModel verifyAccountModel = VerifyAccountModel.fromJson(res.data["data"]);
