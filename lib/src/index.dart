@@ -73,15 +73,15 @@ class MonetaCoreBanking {
     }
   }
 
-  /// returns either a success message on success or error message
-  Future<Either<String, String>> verifyAccount(
+  /// returns either a [VerifyAccountModel] on success or error message
+  Future<Either<VerifyAccountModel, String>> verifyAccount(
       Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.validateAccount(request);
 
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        String data = res.data["data"].toString();
-        return Left(data);
+        VerifyAccountModel verifyAccountModel = VerifyAccountModel.fromJson(res.data["data"]);
+        return Left(verifyAccountModel);
       } else {
         return Right(res.data["message"]);
       }

@@ -832,19 +832,17 @@ class BankingRepositoryMock extends IBankingRepository {
         statusCode: 200,
         data: {
           "status": "success",
+          "message": "Account Verified",
           "data": {
-            "id": 1,
-            "account_number": "0773175637",
-            "account_name": "Tijjani Yusuf",
-            "aggregator": 1,
-            "bank_code": "011",
-            "bank": {
-              "name": "First Bank of Nigeria",
-              "slug": "first-bank-of-nigeria",
-              "code": "011",
-              "ussd": "*894#"
-            },
-          },
+            "user_id": 1,
+            "account_number": "1100039727",
+            "bank_id": 2,
+            "account_name": "KAMORU SAKIRU DAMILARE",
+            "aggregator": true,
+            "updated_at": "2023-06-23T12:38:34.000000Z",
+            "created_at": "2023-06-23T12:38:34.000000Z",
+            "id": 1
+          }
         },
         requestOptions: RequestOptions(path: "")));
   }
