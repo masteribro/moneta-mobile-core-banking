@@ -80,7 +80,8 @@ class MonetaCoreBanking {
       ApiResponse res = await _bankingRepo.verifyAccount(request);
 
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        VerifyAccountModel verifyAccountModel = VerifyAccountModel.fromJson(res.data["data"]);
+        VerifyAccountModel verifyAccountModel =
+            VerifyAccountModel.fromJson(res.data["data"]);
         return Left(verifyAccountModel);
       } else {
         return Right(res.data["message"]);
