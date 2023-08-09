@@ -2,6 +2,10 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
+import 'package:moneta_core_banking/src/models/savings/account_creation_response.dart';
+import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
+import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
+import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -20,13 +24,16 @@ void main() {
   late Either<String, String> removeBeneficiaryResponse;
   late Either<List<NotificationModel>, String> getAllNotificationsResponse;
   late Either<NotificationModel, String> getNotificationResponse;
+  late Either<List<AllAccountModel>, String> getAllSavingsAccountsResponse;
+  late Either<AccountCreationResponse, String> addSavingsAccountResponse;
+  late Either<List<AccountTypeModel>, String> getAllAccountTypesResponse;
   String testToken;
   String? testID;
 
   setUp(() async {
     testToken = "377|rIiEIuJLfFWiOYhbmuAIVC4fqj1oqUyi4HoUhoyG";
     testID = "3";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: true);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -183,5 +190,40 @@ void main() {
       debugPrint(getNotificationResponse.left.toString());
     }
     debugPrint(getNotificationResponse.toString()) ;
+  });
+
+  test ('Test get all account types - Core Banking', () async {
+    getAllAccountTypesResponse = await coreHandler.getAccountTypes();
+    if (getAllAccountTypesResponse.isLeft){
+      debugPrint(getAllAccountTypesResponse.left.toString());
+    }
+    debugPrint(getAllAccountTypesResponse.toString());
+  });
+
+  test ('Test get all savings accounts - Core Banking', () async {
+    getAllSavingsAccountsResponse = await coreHandler.getAllAccounts();
+    if (getAllSavingsAccountsResponse.isLeft){
+      debugPrint(getAllSavingsAccountsResponse.left.toString());
+    }
+    debugPrint(getAllSavingsAccountsResponse.toString());
+  });
+
+  test ('Test add savings accounts - Core Banking', () async {
+    addSavingsAccountResponse = await coreHandler.addSavingsAccount(AddSavingsRequestModel.fromJson({
+      "bank_id": "2",
+      "account_type_id": "2",
+      "bvn": "1109887723",
+      "last_name": "Kenwood",
+      "other_names": "Kehlani",
+      "gender": "F",
+      "place_of_birth": "FCT, Abuja",
+      "date_of_birth": "20-05-1992",
+      "address": "Lugbe, FCT",
+      "phone": "08022491679"
+    }));
+    if (addSavingsAccountResponse.isLeft){
+      debugPrint(addSavingsAccountResponse.left.toString());
+    }
+    debugPrint(addSavingsAccountResponse.toString());
   });
 }

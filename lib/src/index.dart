@@ -1,6 +1,10 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/models/savings/account_creation_response.dart';
+import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
+import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
+import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -80,7 +84,8 @@ class MonetaCoreBanking {
       ApiResponse res = await _bankingRepo.verifyAccount(request);
 
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        VerifyAccountModel verifyAccountModel = VerifyAccountModel.fromJson(res.data["data"]);
+        VerifyAccountModel verifyAccountModel =
+            VerifyAccountModel.fromJson(res.data["data"]);
         return Left(verifyAccountModel);
       } else {
         return Right(res.data["message"]);
@@ -371,6 +376,58 @@ class MonetaCoreBanking {
         NotificationModel notification =
             NotificationModel.fromJson(res.data["data"]);
         return Left(notification);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// Returns Either a List of Account Types Objects on success or error message
+  Future<Either<List<AccountTypeModel>, String>> getAccountTypes() async {
+    try {
+      ApiResponse res = await _bankingRepo.getAccountTypes();
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        List<AccountTypeModel> accountTypes = [];
+        for (var account in res.data["data"]) {
+          accountTypes.add(AccountTypeModel.fromJson(account));
+        }
+        return Left(accountTypes);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// Returns Either a List of Account Objects on success or error message
+  Future<Either<List<AllAccountModel>, String>> getAllAccounts() async {
+    try {
+      ApiResponse res = await _bankingRepo.getAllSavingsAccount();
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        List<AllAccountModel> allAccounts = [];
+        for (var account in res.data["data"]) {
+          allAccounts.add(AllAccountModel.fromJson(account));
+        }
+        return Left(allAccounts);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// Returns Either an Account Creation Response on success or error message
+  Future<Either<AccountCreationResponse, String>> addSavingsAccount(
+      AddSavingsRequestModel request) async {
+    try {
+      ApiResponse res = await _bankingRepo.addSavingsAccount(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        AccountCreationResponse accountCreationResponse = AccountCreationResponse.fromJson(res.data["data"]);
+        return Left(accountCreationResponse);
       } else {
         return Right(res.data["message"]);
       }
