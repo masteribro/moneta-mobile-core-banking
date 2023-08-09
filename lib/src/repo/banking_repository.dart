@@ -1,5 +1,6 @@
 import 'package:moneta_base_library/moneta_base_library.dart';
 import 'package:moneta_core_banking/src/constants/constants.dart';
+import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
 class BankingRepository extends IBankingRepository {
@@ -209,6 +210,27 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> verifyAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
         method: HttpMethod.post, endpoint: "/accounts/verify", reqBody: request);
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> addSavingsAccount(AddSavingsRequestModel request) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.post, endpoint: "/accounts/create-bank-account", reqBody: request.toJson());
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getAllSavingsAccount() async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.get, endpoint: "/accounts");
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getAccountTypes() async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.get, endpoint: "/accounts/account-types");
     return response;
   }
 }

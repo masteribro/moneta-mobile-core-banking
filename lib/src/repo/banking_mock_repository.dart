@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
 import '../../moneta_core_banking.dart';
@@ -843,6 +844,154 @@ class BankingRepositoryMock extends IBankingRepository {
             "created_at": "2023-06-23T12:38:34.000000Z",
             "id": 1
           }
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> addSavingsAccount(AddSavingsRequestModel request) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Account Created",
+          "data": {
+            "account_number": "1234567891",
+            "account_name": "Abdulhamid Ifeanyi Adekunle"
+          }
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> getAllSavingsAccount() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "All Accounts Retrieved",
+          "data": [
+            {
+              "id": 1,
+              "account_name": "KAMORU SAKIRU DAMILARE",
+              "account_number": "1100039727",
+              "aggregator": 1,
+              "user_id": 1,
+              "bank_id": 2,
+              "created_at": "2023-07-14T09:57:25.000000Z",
+              "updated_at": "2023-07-14T09:57:25.000000Z",
+              "credentials": null,
+              "account_type_id": 2,
+              "bank": {
+                "id": 2,
+                "name": "Regent MFB",
+                "alias": "regent-mfb",
+                "code": "090125",
+                "url": "http://52.168.85.231/BankOneWebAPI/api",
+                "is_active": 1,
+                "token_path": "/?",
+                "balance_path": "/Account/GetAccountByAccountNumber/2?",
+                "transfer_path": "/transaction",
+                "transfer_inter_path": "/transaction",
+                "metadata": "{\"token\":{\"test\":\"60631a02-9cfe-40e1-949b-7b080d827955\",\"live\":\"####\"},\"default\":{\"account_number\":\"1025612672\"}}",
+                "created_at": null,
+                "updated_at": null
+              },
+              "account_type": {
+                "id": 2,
+                "name": "Easy Savings",
+                "code": "101",
+                "bank_id": 2,
+                "created_at": "2023-08-04T16:01:55.000000Z",
+                "updated_at": "2023-08-04T16:01:55.000000Z"
+              }
+            }
+          ]
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> getAccountTypes() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Account Types Retrieved",
+          "data": [
+            {
+              "id": 1,
+              "name": "Savings",
+              "code": "100",
+              "bank_id": 2,
+              "created_at": "2023-08-07T08:17:34.000000Z",
+              "updated_at": "2023-08-07T08:17:34.000000Z",
+              "bank": {
+                "id": 2,
+                "name": "Regent MFB",
+                "alias": "regent-mfb",
+                "code": "090125",
+                "url": "http://52.168.85.231/BankOneWebAPI/api",
+                "is_active": 1,
+                "token_path": "/?",
+                "balance_path": "/Account/GetAccountByAccountNumber/2?",
+                "transfer_path": "/transaction",
+                "transfer_inter_path": "/transaction",
+                "metadata": "{\"token\":{\"test\":\"60631a02-9cfe-40e1-949b-7b080d827955\",\"live\":\"####\"},\"default\":{\"account_number\":\"1025612672\"}}",
+                "created_at": null,
+                "updated_at": null
+              }
+            },
+            {
+              "id": 2,
+              "name": "Easy Savings",
+              "code": "101",
+              "bank_id": 2,
+              "created_at": "2023-08-07T08:17:35.000000Z",
+              "updated_at": "2023-08-07T08:17:35.000000Z",
+              "bank": {
+                "id": 2,
+                "name": "Regent MFB",
+                "alias": "regent-mfb",
+                "code": "090125",
+                "url": "http://52.168.85.231/BankOneWebAPI/api",
+                "is_active": 1,
+                "token_path": "/?",
+                "balance_path": "/Account/GetAccountByAccountNumber/2?",
+                "transfer_path": "/transaction",
+                "transfer_inter_path": "/transaction",
+                "metadata": "{\"token\":{\"test\":\"60631a02-9cfe-40e1-949b-7b080d827955\",\"live\":\"####\"},\"default\":{\"account_number\":\"1025612672\"}}",
+                "created_at": null,
+                "updated_at": null
+              }
+            },
+            {
+              "id": 3,
+              "name": "Current Individual Account",
+              "code": "201",
+              "bank_id": 2,
+              "created_at": "2023-08-07T10:48:46.000000Z",
+              "updated_at": "2023-08-07T10:48:46.000000Z",
+              "bank": {
+                "id": 2,
+                "name": "Regent MFB",
+                "alias": "regent-mfb",
+                "code": "090125",
+                "url": "http://52.168.85.231/BankOneWebAPI/api",
+                "is_active": 1,
+                "token_path": "/?",
+                "balance_path": "/Account/GetAccountByAccountNumber/2?",
+                "transfer_path": "/transaction",
+                "transfer_inter_path": "/transaction",
+                "metadata": "{\"token\":{\"test\":\"60631a02-9cfe-40e1-949b-7b080d827955\",\"live\":\"####\"},\"default\":{\"account_number\":\"1025612672\"}}",
+                "created_at": null,
+                "updated_at": null
+              }
+            }
+          ]
         },
         requestOptions: RequestOptions(path: "")));
   }
