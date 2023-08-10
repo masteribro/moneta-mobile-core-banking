@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
-import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
 import '../../moneta_core_banking.dart';
@@ -992,6 +991,28 @@ class BankingRepositoryMock extends IBankingRepository {
               }
             }
           ]
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> getAccountCreationFields(String bankId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Account Creation Fields Retrieved",
+          "data": {
+            "bvn": "1109887723",
+            "last_name": "Kenwood",
+            "other_names": "Kehlani",
+            "gender": "F",
+            "date_of_birth": "1992-05-20",
+            "phone": null,
+            "address": "Lugbe, FCT",
+            "place_of_birth": "FCT, Abuja"
+          }
         },
         requestOptions: RequestOptions(path: "")));
   }
