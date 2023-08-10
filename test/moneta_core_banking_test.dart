@@ -2,10 +2,6 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
-import 'package:moneta_core_banking/src/models/savings/account_creation_response.dart';
-import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
-import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
-import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -27,13 +23,14 @@ void main() {
   late Either<List<AllAccountModel>, String> getAllSavingsAccountsResponse;
   late Either<AccountCreationResponse, String> addSavingsAccountResponse;
   late Either<List<AccountTypeModel>, String> getAllAccountTypesResponse;
+  late Either<List<Map<String, String?>>, String> getAccountCreationFieldsResponse;
   String testToken;
   String? testID;
 
   setUp(() async {
     testToken = "377|rIiEIuJLfFWiOYhbmuAIVC4fqj1oqUyi4HoUhoyG";
     testID = "3";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: true);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -225,5 +222,14 @@ void main() {
       debugPrint(addSavingsAccountResponse.left.toString());
     }
     debugPrint(addSavingsAccountResponse.toString());
+  });
+
+  test ('Test get account creation fields - Core Banking', () async {
+    getAccountCreationFieldsResponse = await coreHandler.getAccountCreationFields(2.toString());
+    if (getAccountCreationFieldsResponse.isLeft){
+      debugPrint(getAccountCreationFieldsResponse.left.toString());
+    } else {
+      debugPrint(getAccountCreationFieldsResponse.right);
+    }
   });
 }
