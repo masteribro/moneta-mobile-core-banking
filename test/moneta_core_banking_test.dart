@@ -28,6 +28,7 @@ void main() {
   late Either<List<AllAccountModel>, String> getAllSavingsAccountsResponse;
   late Either<AccountCreationResponse, String> addSavingsAccountResponse;
   late Either<List<AccountTypeModel>, String> getAllAccountTypesResponse;
+  late Either<List<Map<String, String?>>, String> getAccountCreationFieldsResponse;
   String testToken;
   String? testID;
 
@@ -226,6 +227,15 @@ void main() {
       debugPrint(addSavingsAccountResponse.left.toString());
     }
     debugPrint(addSavingsAccountResponse.toString());
+  });
+
+  test ('Test get account creation fields - Core Banking', () async {
+    getAccountCreationFieldsResponse = await coreHandler.getAccountCreationFields(2.toString());
+    if (getAccountCreationFieldsResponse.isLeft){
+      debugPrint(getAccountCreationFieldsResponse.left.toString());
+    } else {
+      debugPrint(getAccountCreationFieldsResponse.right);
+    }
   });
 
   test ('Test create accounts - Core Banking', () async {

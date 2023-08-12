@@ -56,6 +56,8 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> getAccountTypes();
 
+  Future<ApiResponse> getAccountCreationFields(String bankId);
+
   Future<ApiResponse> createAccount(CreateAccountRequest request);
 
 }

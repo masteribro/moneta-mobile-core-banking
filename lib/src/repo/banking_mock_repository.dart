@@ -998,6 +998,28 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getAccountCreationFields(String bankId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Account Creation Fields Retrieved",
+          "data": {
+            "bvn": "1109887723",
+            "last_name": "Kenwood",
+            "other_names": "Kehlani",
+            "gender": "F",
+            "date_of_birth": "1992-05-20",
+            "phone": null,
+            "address": "Lugbe, FCT",
+            "place_of_birth": "FCT, Abuja"
+          }
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
   Future<ApiResponse> createAccount(CreateAccountRequest request) async {
     await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(

@@ -427,8 +427,33 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.addSavingsAccount(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        AccountCreationResponse accountCreationResponse = AccountCreationResponse.fromJson(res.data["data"]);
+        AccountCreationResponse accountCreationResponse =
+            AccountCreationResponse.fromJson(res.data["data"]);
         return Left(accountCreationResponse);
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// Returns Either a List of Maps for each field on success or error message
+  Future<Either<List<Map<String, String?>>, String>> getAccountCreationFields(
+      String bankId) async {
+    try {
+      ApiResponse res = await _bankingRepo.getAccountCreationFields(bankId);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        List<Map<String, String?>> fields = [];
+        debugPrint("RuntimeType: ${res.data["data"].runtimeType}");
+        if (res.data["data"].runtimeType.toString().contains("Map")) {
+          (res.data["data"] as Map).forEach((key, value) {
+            fields.add({key: value});
+          });
+          return Left(fields);
+        } else {
+          return const Left([]);
+        }
       } else {
         return Right(res.data["message"]);
       }

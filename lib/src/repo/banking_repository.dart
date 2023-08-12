@@ -236,6 +236,14 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getAccountCreationFields(String bankId) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.get,
+        endpoint: "/accounts/create-account-fields?bank_id=$bankId");
+    return response;
+  }
+
+  @override
   Future<ApiResponse> createAccount(CreateAccountRequest request) async {
     ApiResponse response = await api.call(
         method: HttpMethod.post, endpoint: "/accounts/create-bank-account", reqBody: request.toJson());
