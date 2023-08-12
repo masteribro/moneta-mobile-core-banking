@@ -1,5 +1,6 @@
 import 'package:moneta_base_library/moneta_base_library.dart';
 import 'package:moneta_core_banking/src/constants/constants.dart';
+import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
@@ -202,34 +203,28 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> validateAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post,
-        endpoint: "/accounts/validate",
-        reqBody: request);
+        method: HttpMethod.post, endpoint: "/accounts/validate", reqBody: request);
     return response;
   }
 
   @override
   Future<ApiResponse> verifyAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post,
-        endpoint: "/accounts/verify",
-        reqBody: request);
+        method: HttpMethod.post, endpoint: "/accounts/verify", reqBody: request);
     return response;
   }
 
   @override
   Future<ApiResponse> addSavingsAccount(AddSavingsRequestModel request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post,
-        endpoint: "/accounts/create-bank-account",
-        reqBody: request.toJson());
+        method: HttpMethod.post, endpoint: "/accounts/create-bank-account", reqBody: request.toJson());
     return response;
   }
 
   @override
   Future<ApiResponse> getAllSavingsAccount() async {
-    ApiResponse response =
-        await api.call(method: HttpMethod.get, endpoint: "/accounts");
+    ApiResponse response = await api.call(
+        method: HttpMethod.get, endpoint: "/accounts");
     return response;
   }
 
@@ -245,6 +240,13 @@ class BankingRepository extends IBankingRepository {
     ApiResponse response = await api.call(
         method: HttpMethod.get,
         endpoint: "/accounts/create-account-fields?bank_id=$bankId");
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> createAccount(CreateAccountRequest request) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.post, endpoint: "/accounts/create-bank-account", reqBody: request.toJson());
     return response;
   }
 }

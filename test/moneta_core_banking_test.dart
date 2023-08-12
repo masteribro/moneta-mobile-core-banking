@@ -2,6 +2,11 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
+import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
+import 'package:moneta_core_banking/src/models/savings/account_creation_response.dart';
+import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
+import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
+import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -30,7 +35,7 @@ void main() {
   setUp(() async {
     testToken = "377|rIiEIuJLfFWiOYhbmuAIVC4fqj1oqUyi4HoUhoyG";
     testID = "3";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: true);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -231,5 +236,29 @@ void main() {
     } else {
       debugPrint(getAccountCreationFieldsResponse.right);
     }
+  });
+
+  test ('Test create accounts - Core Banking', () async {
+    addSavingsAccountResponse = await coreHandler.createAccount(CreateAccountRequest.fromJson({
+      "bank_id": "2",
+      "account_type_id": "1",
+      "bvn": "22440037046",
+      "last_name": "Babalola",
+      "other_names": "Abdulqudduus",
+      "gender": "M",
+      "place_of_birth": "Ikeja, Lagos",
+      "date_of_birth": "1999-05-21",
+      "address": "Lugbe, FCT",
+      // Regent MFB: Babalola Abdulqudduus
+      // 1300243913 ? Probably
+      // 1400243916
+      // 1500243919
+      "phone": "08143336732",
+      "national_identity_number": "65520881942"
+    }));
+    if (addSavingsAccountResponse.isLeft){
+      debugPrint(addSavingsAccountResponse.left.toString());
+    }
+    debugPrint(addSavingsAccountResponse.toString());
   });
 }

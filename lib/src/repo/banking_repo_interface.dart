@@ -1,4 +1,5 @@
 import 'package:moneta_base_library/lib_response.dart';
+import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 
 abstract class IBankingRepository {
@@ -56,5 +57,7 @@ abstract class IBankingRepository {
   Future<ApiResponse> getAccountTypes();
 
   Future<ApiResponse> getAccountCreationFields(String bankId);
+
+  Future<ApiResponse> createAccount(CreateAccountRequest request);
 
 }

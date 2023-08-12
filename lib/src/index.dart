@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/account_creation_response.dart';
 import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
@@ -453,6 +454,22 @@ class MonetaCoreBanking {
         } else {
           return const Left([]);
         }
+      } else {
+        return Right(res.data["message"]);
+      }
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  /// Returns Either an Account Creation Response on success or error message
+  Future<Either<AccountCreationResponse, String>> createAccount(
+      CreateAccountRequest request) async {
+    try {
+      ApiResponse res = await _bankingRepo.createAccount(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        AccountCreationResponse accountCreationResponse = AccountCreationResponse.fromJson(res.data["data"]);
+        return Left(accountCreationResponse);
       } else {
         return Right(res.data["message"]);
       }
