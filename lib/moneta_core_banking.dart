@@ -10,3 +10,4 @@ export 'package:moneta_core_banking/src/models/resolved_account.dart';
 export 'package:moneta_core_banking/src/models/notification_model.dart';
 export 'package:moneta_core_banking/src/models/verify_account_model.dart';
 export 'package:moneta_core_banking/src/models/savings/savings.dart';
+export 'package:moneta_core_banking/src/models/create_account_request_model.dart';

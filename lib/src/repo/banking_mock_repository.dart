@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
@@ -992,6 +993,22 @@ class BankingRepositoryMock extends IBankingRepository {
               }
             }
           ]
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> createAccount(CreateAccountRequest request) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Account Created",
+          "data": {
+            "account_number": "1234567891",
+            "account_name": "Abdulhamid Ifeanyi Adekunle"
+          }
         },
         requestOptions: RequestOptions(path: "")));
   }
