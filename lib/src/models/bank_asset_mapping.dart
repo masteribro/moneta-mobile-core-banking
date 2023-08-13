@@ -26,6 +26,7 @@ class BankAssets{
     "100004" : "paycom",
     "076" : "polaris-bank",
     "101" : "providus-bank",
+    "090125" : "regent-mfb",
     "125" : "rubies-mfb",
     "51310" : "sparkle-microfinance-bank",
     "221" : "stanbic-ibtc-bank",
