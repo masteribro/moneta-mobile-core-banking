@@ -21,11 +21,12 @@ class MonetaCoreBanking {
   ///initialization of banking repo as a type of banking repo interface
   late IBankingRepository _bankingRepo;
   final bool mock;
+  final bool isStaging;
 
-  MonetaCoreBanking({required this.requestToken, this.mock = false}) {
+  MonetaCoreBanking({required this.requestToken, this.mock = false, this.isStaging = true}) {
     _bankingRepo = mock
         ? BankingRepositoryMock(requestToken)
-        : BankingRepository(requestToken);
+        : BankingRepository(requestToken, isStaging);
   }
 
   ///implementation of get balance using dart either to return values for balance being either the [Balance] object on success or a string having message for a failure response

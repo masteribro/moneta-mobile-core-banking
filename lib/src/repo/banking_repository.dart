@@ -8,10 +8,12 @@ class BankingRepository extends IBankingRepository {
   final String token;
   late ApiService api;
 
-  BankingRepository(this.token) {
+  BankingRepository(this.token, bool isStaging) {
     api = ApiService(
       token: token,
-      config: AppConstants.libConfig,
+      config: isStaging
+          ? AppConstants.stagingLibConfig
+          : AppConstants.prodLibConfig,
     );
   }
 
@@ -203,28 +205,34 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> validateAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post, endpoint: "/accounts/validate", reqBody: request);
+        method: HttpMethod.post,
+        endpoint: "/accounts/validate",
+        reqBody: request);
     return response;
   }
 
   @override
   Future<ApiResponse> verifyAccount(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post, endpoint: "/accounts/verify", reqBody: request);
+        method: HttpMethod.post,
+        endpoint: "/accounts/verify",
+        reqBody: request);
     return response;
   }
 
   @override
   Future<ApiResponse> addSavingsAccount(AddSavingsRequestModel request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post, endpoint: "/accounts/create-bank-account", reqBody: request.toJson());
+        method: HttpMethod.post,
+        endpoint: "/accounts/create-bank-account",
+        reqBody: request.toJson());
     return response;
   }
 
   @override
   Future<ApiResponse> getAllSavingsAccount() async {
-    ApiResponse response = await api.call(
-        method: HttpMethod.get, endpoint: "/accounts");
+    ApiResponse response =
+        await api.call(method: HttpMethod.get, endpoint: "/accounts");
     return response;
   }
 
@@ -246,7 +254,9 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> createAccount(CreateAccountRequest request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post, endpoint: "/accounts/create-bank-account", reqBody: request.toJson());
+        method: HttpMethod.post,
+        endpoint: "/accounts/create-bank-account",
+        reqBody: request.toJson());
     return response;
   }
 }
