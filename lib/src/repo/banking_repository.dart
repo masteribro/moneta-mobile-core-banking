@@ -2,6 +2,7 @@ import 'package:moneta_base_library/moneta_base_library.dart';
 import 'package:moneta_core_banking/src/constants/constants.dart';
 import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
+import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
 class BankingRepository extends IBankingRepository {
@@ -101,10 +102,11 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
-  Future<ApiResponse> getTransactions(String accountId) async {
+  Future<ApiResponse> getTransactions(TransactionsRequestModel request) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.get,
-      endpoint: "/accounts/$accountId/transactions",
+      method: HttpMethod.post,
+      endpoint: "/bank-one/transaction-history",
+      reqBody: request.toJson()
     );
     return response;
   }

@@ -6,6 +6,7 @@ import 'package:moneta_core_banking/src/models/savings/account_creation_response
 import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
+import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -221,17 +222,13 @@ class MonetaCoreBanking {
   }
 
   /// Returns Either a List of Transaction objects on success or error message
-  Future<Either<List<Transaction>, String>> getTransactions(
-      String accountId) async {
+  Future<Either<TransactionsResponseModel, String>> getTransactions(
+      TransactionsRequestModel requestModel) async {
     try {
-      ApiResponse res = await _bankingRepo.getTransactions(accountId);
+      ApiResponse res = await _bankingRepo.getTransactions(requestModel);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
-        assert(res.data["data"].runtimeType.toString().contains("List"));
-        List<Transaction> transactions = [];
-        for (var account in res.data["data"]) {
-          transactions.add(Transaction.fromJson(account));
-        }
+        TransactionsResponseModel transactions = TransactionsResponseModel.fromJson(res.data["data"]);
         return Left(transactions);
       } else {
         return Right(res.data["message"]);
