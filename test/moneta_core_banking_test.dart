@@ -7,6 +7,7 @@ import 'package:moneta_core_banking/src/models/savings/account_creation_response
 import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
+import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
@@ -19,7 +20,7 @@ void main() {
   late Either<List<Account>, String> getAllAccountsResponse;
   late Either<ResolvedAccount, String> resolveAccountResponse;
   late Either<String, String> removeAccountResponse;
-  late Either<List<Transaction>, String> getTransactionsResponse;
+  late Either<TransactionsResponseModel, String> getTransactionsResponse;
   late Either<List<Account>, String> getBeneficiariesResponse;
   late Either<Account, String> addBeneficiaryResponse;
   late Either<String, String> removeBeneficiaryResponse;
@@ -33,9 +34,9 @@ void main() {
   String? testID;
 
   setUp(() async {
-    testToken = "377|rIiEIuJLfFWiOYhbmuAIVC4fqj1oqUyi4HoUhoyG";
+    testToken = "473|Ie3AMATCoCvgTs7Rcm7oHXn1a3x23c8fktyvdCef";
     testID = "3";
-    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false);
+    coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false, isStaging: false);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -124,9 +125,15 @@ void main() {
   });
 
   test('Test get transactions - Core Banking', () async {
-    getTransactionsResponse = await coreHandler.getTransactions("3");
+    getTransactionsResponse = await coreHandler.getTransactions(TransactionsRequestModel.fromJson({
+      "account_number": "1100251099",
+      "from_date": "20-04-2023",
+      "to_date": "",
+      "pageSize": "20",
+      "pageNumber": "1"
+    }));
     if (getTransactionsResponse.isLeft){
-      debugPrint(getTransactionsResponse.left.length.toString());
+      debugPrint(getTransactionsResponse.left.toJson().toString());
     } else {
       debugPrint(getTransactionsResponse.right.toString());
     }

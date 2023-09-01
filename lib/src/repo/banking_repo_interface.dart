@@ -1,6 +1,7 @@
 import 'package:moneta_base_library/lib_response.dart';
 import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
+import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
 
 abstract class IBankingRepository {
   Future<ApiResponse> doTransfer(
@@ -28,7 +29,7 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> resolveBank(String accountNumber);
 
-  Future<ApiResponse> getTransactions(String accountId);
+  Future<ApiResponse> getTransactions(TransactionsRequestModel request);
 
   Future<ApiResponse> getBeneficiaries();
 
