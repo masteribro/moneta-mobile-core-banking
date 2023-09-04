@@ -1,9 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
-import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
-import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
-import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
+import 'package:moneta_core_banking/src/models/transfer/transfer_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
 import '../../moneta_core_banking.dart';
@@ -15,27 +12,15 @@ class BankingRepositoryMock extends IBankingRepository {
 
   @override
   Future<ApiResponse> doTransfer(
-      Map<String, dynamic> request, String id) async {
-    List<bool> dataListResponse = [];
+      TransferRequestModel request) async {
 
     await Future.delayed(const Duration(seconds: 1));
-    if (request["transfer"].runtimeType.toString().contains("List")){
-      // print(request["transfer"]);
-      for (var value in request["transfer"]){
-        if (kDebugMode){
-          print(value.toString());
-        }
-        dataListResponse.add(true);
-      }
-    } else {
-      throw Exception("Couldn't set data List");
-    }
     return ApiResponse(Response(
         statusCode: 200,
         data: {
           "status": "success",
           "message": "Transfer was successful",
-          "data": dataListResponse
+          "data": []
         },
         requestOptions: RequestOptions(path: "")));
   }

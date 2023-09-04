@@ -3,6 +3,7 @@ import 'package:moneta_core_banking/src/constants/constants.dart';
 import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
 import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
+import 'package:moneta_core_banking/src/models/transfer/transfer_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repo_interface.dart';
 
 class BankingRepository extends IBankingRepository {
@@ -20,13 +21,12 @@ class BankingRepository extends IBankingRepository {
 
   @override
   Future<ApiResponse> doTransfer(
-    Map<String, dynamic> request,
-    String id,
+    TransferRequestModel request,
   ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "/accounts/$id/transfer",
-      reqBody: request,
+      endpoint: "/bank-one/transfer/${request.isIntra() ? 'intra': 'inter'}",
+      reqBody: request.toJson(),
     );
     return response;
   }

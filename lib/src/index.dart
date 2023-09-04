@@ -1,12 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
-import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
-import 'package:moneta_core_banking/src/models/savings/account_creation_response.dart';
-import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
-import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
-import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
-import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -47,14 +41,12 @@ class MonetaCoreBanking {
   }
 
   ///returns either TransferResponse on success or error message
-  Future<Either<TransferResponse, String>> transfer(
-      Map<String, dynamic> request, String id) async {
+  Future<Either<String, String>> transfer(
+      TransferRequestModel request) async {
     try {
-      ApiResponse res = await _bankingRepo.doTransfer(request, id);
+      ApiResponse res = await _bankingRepo.doTransfer(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        assert(res.data["data"].runtimeType.toString().contains("List"));
-        TransferResponse transferResponse = TransferResponse.fromJson(res.data);
-        return Left(transferResponse);
+        return Left(res.data["message"]);
       } else {
         return Right(res.data["message"]);
       }
