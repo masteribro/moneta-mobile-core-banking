@@ -2,17 +2,11 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
-import 'package:moneta_core_banking/src/models/create_account_request_model.dart';
-import 'package:moneta_core_banking/src/models/savings/account_creation_response.dart';
-import 'package:moneta_core_banking/src/models/savings/account_type_model.dart';
-import 'package:moneta_core_banking/src/models/savings/add_savings_request_model.dart';
-import 'package:moneta_core_banking/src/models/savings/all_account_model.dart';
-import 'package:moneta_core_banking/src/models/transactions_request_model.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
   late Either<Balance, String> response;
-  late Either<TransferResponse, String> transferResponse;
+  late Either<String, String> transferResponse;
   late Either<Map, String> statementResponse;
   late Either<List<Bank>, String> getBanksResponse;
   late Either<List<Bank>, String> resolveResponse;
@@ -49,28 +43,29 @@ void main() {
     debugPrint(response.toString());
   });
 
-  test('Test do transfer - Core Banking', () async {
-    transferResponse = await coreHandler.transfer({
-      "transfer": [
+  test('Test do intra transfer - Core Banking', () async {
+    transferResponse = await coreHandler.transfer(IntraTransferRequestModel.fromJson(
         {
-          "amount": "100",
-          "account": "3087813431",
-          "description": "Staging Moneta Core Banking Mobile App Test DO TRANSFER",
-          "bank" : "011",
-          // "scheduled": true,
-          // "scheduled_time: DateTime.now()
-        },
-        {
-          "amount": "100",
-          "account": "3087813431",
-          "description": "Staging Moneta Core Banking Mobile App Test DO TRANSFER",
-          "bank" : "011",
-          // "scheduled": true,
-          // "scheduled_time: DateTime.now()
-        },
-      ]},
-        "3" // Account ID To Transfer From
-    );
+          "amount": 100,
+          "from_account_number": "1100039727",
+          "to_account_number": "1100012872",
+          "narration": "aaaaaa"
+        }));
+    // print(transferResponse.left.data);
+    transferResponse.mapLeft((left) => debugPrint(left.toString()));
+  });
+
+  test('Test do inter transfer - Core Banking', () async {
+    transferResponse = await coreHandler.transfer(InterTransferRequestModel.fromJson({
+      "amount": "20",
+      "payer_name": "Payer name",
+      "payer_account_number": "1100250913",
+      "receiver_name": "Abdulqudduus Babalola",
+      "receiver_account_number": "0817064402",
+      "receiver_bank_code": "044",
+      "receiver_phone_number": "08124792224",
+      "narration": "testing"
+    }));
     // print(transferResponse.left.data);
     transferResponse.mapLeft((left) => debugPrint(left.toString()));
   });
