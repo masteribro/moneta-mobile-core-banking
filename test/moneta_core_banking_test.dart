@@ -28,7 +28,7 @@ void main() {
   String? testID;
 
   setUp(() async {
-    testToken = "473|Ie3AMATCoCvgTs7Rcm7oHXn1a3x23c8fktyvdCef";
+    testToken = "483|kSWCE7TwXq4aWoEcP9XAfQfC818fNwvNxF9b0RTP";
     testID = "3";
     coreHandler = MonetaCoreBanking(requestToken: testToken, mock: false, isStaging: false);
   });
@@ -46,10 +46,10 @@ void main() {
   test('Test do intra transfer - Core Banking', () async {
     transferResponse = await coreHandler.transfer(IntraTransferRequestModel.fromJson(
         {
-          "amount": 100,
+          "amount": 1000,
           "from_account_number": "1100039727",
-          "to_account_number": "1100012872",
-          "narration": "aaaaaa"
+          "to_account_number": "1100250913",
+          "narration": "Test"
         }));
     // print(transferResponse.left.data);
     transferResponse.mapLeft((left) => debugPrint(left.toString()));
@@ -122,7 +122,7 @@ void main() {
   test('Test get transactions - Core Banking', () async {
     getTransactionsResponse = await coreHandler.getTransactions(TransactionsRequestModel.fromJson({
       "account_number": "1100251099",
-      "from_date": "20-04-2023",
+      "from_date": "08-09-2023",
       "to_date": "",
       "pageSize": "20",
       "pageNumber": "1"
