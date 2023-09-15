@@ -78,7 +78,7 @@ void main() {
   test('Test get all accounts - Core Banking', () async {
     getAllAccountsResponse = await coreHandler.getMyAccounts();
     if (getAllAccountsResponse.isLeft){
-      debugPrint(getAllAccountsResponse.left.toString());
+      debugPrint(getAllAccountsResponse.left.first.extendedBank?.name);
     }
     debugPrint(getAllAccountsResponse.toString()) ;
   });
