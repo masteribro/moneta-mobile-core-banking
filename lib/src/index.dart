@@ -25,7 +25,7 @@ class MonetaCoreBanking {
   }
 
   ///implementation of get balance using dart either to return values for balance being either the [Balance] object on success or a string having message for a failure response
-  Future<Either<Balance, String>> getBalance(String id) async {
+  Future<Either<Balance, LibErrors>> getBalance(String id) async {
     try {
       ApiResponse res = await _bankingRepo.getBalance(id);
 
@@ -33,30 +33,34 @@ class MonetaCoreBanking {
         Balance balance = Balance.fromJson(res.data["data"]);
         return Left(balance);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   ///returns either TransferResponse on success or error message
-  Future<Either<String, String>> transfer(
+  Future<Either<String, LibErrors>> transfer(
       TransferRequestModel request) async {
     try {
       ApiResponse res = await _bankingRepo.doTransfer(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// returns either the phone number to receive OTP on success or error message
-  Future<Either<String, String>> validateAccount(
+  Future<Either<String, LibErrors>> validateAccount(
       Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.validateAccount(request);
@@ -65,15 +69,17 @@ class MonetaCoreBanking {
         String phoneNumber = res.data["data"]["phone_number"];
         return Left(phoneNumber);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// returns either a [VerifyAccountModel] on success or error message
-  Future<Either<VerifyAccountModel, String>> verifyAccount(
+  Future<Either<VerifyAccountModel, LibErrors>> verifyAccount(
       Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.verifyAccount(request);
@@ -83,15 +89,17 @@ class MonetaCoreBanking {
             VerifyAccountModel.fromJson(res.data["data"]);
         return Left(verifyAccountModel);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   ///returns either List of [Bank]s on success or error message
-  Future<Either<List<Bank>, String>> getAllBanks() async {
+  Future<Either<List<Bank>, LibErrors>> getAllBanks() async {
     try {
       ApiResponse res = await _bankingRepo.getAllBanks();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -102,15 +110,17 @@ class MonetaCoreBanking {
         }
         return Left(bankList);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns either List of possible [Bank]s on success or error message
-  Future<Either<List<Bank>, String>> resolveBank(String accountNumber) async {
+  Future<Either<List<Bank>, LibErrors>> resolveBank(String accountNumber) async {
     try {
       ApiResponse res = await _bankingRepo.resolveBank(accountNumber);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -121,15 +131,17 @@ class MonetaCoreBanking {
         }
         return Left(bankList);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   ///returns either List of [OnboardedBank]s on success or error message
-  Future<Either<List<OnboardedBank>, String>> getOnboardedBanks() async {
+  Future<Either<List<OnboardedBank>, LibErrors>> getOnboardedBanks() async {
     try {
       ApiResponse res = await _bankingRepo.getOnboardedBanks();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -140,15 +152,17 @@ class MonetaCoreBanking {
         }
         return Left(bankList);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   ///returns either GetAccountsResponse on success or error message
-  Future<Either<List<Account>, String>> getMyAccounts() async {
+  Future<Either<List<Account>, LibErrors>> getMyAccounts() async {
     try {
       ApiResponse res = await _bankingRepo.getMyAccounts();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -160,29 +174,33 @@ class MonetaCoreBanking {
         }
         return Left(accountList);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   ///returns either GetBanksResponse on success or error message
-  Future<Either<Map, String>> getStatement(String bankId) async {
+  Future<Either<Map, LibErrors>> getStatement(String bankId) async {
     try {
       ApiResponse res = await _bankingRepo.getStatement(bankId);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Resolves an account Number and Returns an Account object containing the Account Name
-  Future<Either<ResolvedAccount, String>> resolveAccount(
+  Future<Either<ResolvedAccount, LibErrors>> resolveAccount(
       String accountNumber, String bankCode) async {
     try {
       ApiResponse res = await _bankingRepo
@@ -191,30 +209,32 @@ class MonetaCoreBanking {
         ResolvedAccount account = ResolvedAccount.fromJson(res.data["data"]);
         return Left(account);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
-  Future<Either<String, String>> removeAccount(String id) async {
+  Future<Either<String, LibErrors>> removeAccount(String id) async {
     try {
       ApiResponse res = await _bankingRepo.removeAccount(id);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either a List of Transaction objects on success or error message
-  Future<Either<TransactionsResponseModel, String>> getTransactions(
+  Future<Either<TransactionsResponseModel, LibErrors>> getTransactions(
       TransactionsRequestModel requestModel) async {
     try {
       ApiResponse res = await _bankingRepo.getTransactions(requestModel);
@@ -223,15 +243,16 @@ class MonetaCoreBanking {
         TransactionsResponseModel transactions = TransactionsResponseModel.fromJson(res.data["data"]);
         return Left(transactions);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data, errorsKey: "message");
+        return Right(errors ?? LibErrors());
       }
     } catch (e) {
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either a List of Account objects on success or error message
-  Future<Either<List<Account>, String>> getBeneficiaries() async {
+  Future<Either<List<Account>, LibErrors>> getBeneficiaries() async {
     try {
       ApiResponse res = await _bankingRepo.getBeneficiaries();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -244,15 +265,17 @@ class MonetaCoreBanking {
         }
         return Left(beneficiaries);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// returns either Account object on success or error message
-  Future<Either<Account, String>> addBeneficiary(
+  Future<Either<Account, LibErrors>> addBeneficiary(
       Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.addBeneficiary(request);
@@ -261,85 +284,92 @@ class MonetaCoreBanking {
         Account account = Account.fromJson(res.data["data"]);
         return Left(account);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
-  Future<Either<String, String>> removeBeneficiary(String beneficiaryId) async {
+  Future<Either<String, LibErrors>> removeBeneficiary(String beneficiaryId) async {
     try {
       ApiResponse res = await _bankingRepo.removeBeneficiary(beneficiaryId);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
-  Future<Either<String, String>> verifyPin(Map<String, dynamic> request) async {
+  Future<Either<String, LibErrors>> verifyPin(Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.verifyPin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
-  Future<Either<String, String>> createPin(Map<String, dynamic> request) async {
+  Future<Either<String, LibErrors>> createPin(Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.createPin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
-  Future<Either<String, String>> updatePin(Map<String, dynamic> request) async {
+  Future<Either<String, LibErrors>> updatePin(Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.updatePin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["message"]);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
-  Future<Either<bool, String>> hasPin() async {
+  Future<Either<bool, LibErrors>> hasPin() async {
     try {
       ApiResponse res = await _bankingRepo.hasPin();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         return Left(res.data["data"]["pin"]);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(e.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either a List of Notification objects on success or error message
-  Future<Either<List<NotificationModel>, String>> getAllNotifications() async {
+  Future<Either<List<NotificationModel>, LibErrors>> getAllNotifications() async {
     try {
       ApiResponse res = await _bankingRepo.getAllNotifications();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -351,15 +381,17 @@ class MonetaCoreBanking {
         }
         return Left(notifications);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either a Notification object on success or error message
-  Future<Either<NotificationModel, String>> getNotification(
+  Future<Either<NotificationModel, LibErrors>> getNotification(
       String notificationId) async {
     try {
       ApiResponse res = await _bankingRepo.getNotification(notificationId);
@@ -368,15 +400,17 @@ class MonetaCoreBanking {
             NotificationModel.fromJson(res.data["data"]);
         return Left(notification);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either a List of Account Types Objects on success or error message
-  Future<Either<List<AccountTypeModel>, String>> getAccountTypes() async {
+  Future<Either<List<AccountTypeModel>, LibErrors>> getAccountTypes() async {
     try {
       ApiResponse res = await _bankingRepo.getAccountTypes();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -386,15 +420,17 @@ class MonetaCoreBanking {
         }
         return Left(accountTypes);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either a List of Account Objects on success or error message
-  Future<Either<List<AllAccountModel>, String>> getAllAccounts() async {
+  Future<Either<List<AllAccountModel>, LibErrors>> getAllAccounts() async {
     try {
       ApiResponse res = await _bankingRepo.getAllSavingsAccount();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -404,15 +440,17 @@ class MonetaCoreBanking {
         }
         return Left(allAccounts);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either an Account Creation Response on success or error message
-  Future<Either<AccountCreationResponse, String>> addSavingsAccount(
+  Future<Either<AccountCreationResponse, LibErrors>> addSavingsAccount(
       AddSavingsRequestModel request) async {
     try {
       ApiResponse res = await _bankingRepo.addSavingsAccount(request);
@@ -421,15 +459,17 @@ class MonetaCoreBanking {
             AccountCreationResponse.fromJson(res.data["data"]);
         return Left(accountCreationResponse);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either a List of Maps for each field on success or error message
-  Future<Either<List<Map<String, String?>>, String>> getAccountCreationFields(
+  Future<Either<List<Map<String, String?>>, LibErrors>> getAccountCreationFields(
       String bankId) async {
     try {
       ApiResponse res = await _bankingRepo.getAccountCreationFields(bankId);
@@ -445,15 +485,17 @@ class MonetaCoreBanking {
           return const Left([]);
         }
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 
   /// Returns Either an Account Creation Response on success or error message
-  Future<Either<AccountCreationResponse, String>> createAccount(
+  Future<Either<AccountCreationResponse, LibErrors>> createAccount(
       CreateAccountRequest request) async {
     try {
       ApiResponse res = await _bankingRepo.createAccount(request);
@@ -461,10 +503,12 @@ class MonetaCoreBanking {
         AccountCreationResponse accountCreationResponse = AccountCreationResponse.fromJson(res.data["data"]);
         return Left(accountCreationResponse);
       } else {
-        return Right(res.data["message"]);
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
       }
-    } catch (e) {
-      return Right(e.toString());
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
     }
   }
 }

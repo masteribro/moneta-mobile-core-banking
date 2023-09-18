@@ -1,6 +1,6 @@
 name: moneta_core_banking
 description: A new Flutter project.
-version: 0.0.8
+version: 0.0.9
 homepage: "www.moneta.ng"
 publish_to: none
 
@@ -17,7 +17,7 @@ dependencies:
   moneta_base_library:
     git:
       url: https://github.com/monetang/moneta_base_library_mobile.git
-      ref: ab503e7
+      ref: main
 
 dev_dependencies:
   flutter_test:

@@ -1,29 +1,30 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:moneta_base_library/lib_errors.dart';
 import 'package:moneta_core_banking/moneta_core_banking.dart';
 
 void main() {
   late MonetaCoreBanking coreHandler;
-  late Either<Balance, String> response;
-  late Either<String, String> transferResponse;
-  late Either<Map, String> statementResponse;
-  late Either<List<Bank>, String> getBanksResponse;
-  late Either<List<Bank>, String> resolveResponse;
-  late Either<List<OnboardedBank>, String> getOnboardedBanksResponse;
-  late Either<List<Account>, String> getAllAccountsResponse;
-  late Either<ResolvedAccount, String> resolveAccountResponse;
-  late Either<String, String> removeAccountResponse;
-  late Either<TransactionsResponseModel, String> getTransactionsResponse;
-  late Either<List<Account>, String> getBeneficiariesResponse;
-  late Either<Account, String> addBeneficiaryResponse;
-  late Either<String, String> removeBeneficiaryResponse;
-  late Either<List<NotificationModel>, String> getAllNotificationsResponse;
-  late Either<NotificationModel, String> getNotificationResponse;
-  late Either<List<AllAccountModel>, String> getAllSavingsAccountsResponse;
-  late Either<AccountCreationResponse, String> addSavingsAccountResponse;
-  late Either<List<AccountTypeModel>, String> getAllAccountTypesResponse;
-  late Either<List<Map<String, String?>>, String> getAccountCreationFieldsResponse;
+  late Either<Balance, LibErrors> response;
+  late Either<String, LibErrors> transferResponse;
+  late Either<Map, LibErrors> statementResponse;
+  late Either<List<Bank>, LibErrors> getBanksResponse;
+  late Either<List<Bank>, LibErrors> resolveResponse;
+  late Either<List<OnboardedBank>, LibErrors> getOnboardedBanksResponse;
+  late Either<List<Account>, LibErrors> getAllAccountsResponse;
+  late Either<ResolvedAccount, LibErrors> resolveAccountResponse;
+  late Either<String, LibErrors> removeAccountResponse;
+  late Either<TransactionsResponseModel, LibErrors> getTransactionsResponse;
+  late Either<List<Account>, LibErrors> getBeneficiariesResponse;
+  late Either<Account, LibErrors> addBeneficiaryResponse;
+  late Either<String, LibErrors> removeBeneficiaryResponse;
+  late Either<List<NotificationModel>, LibErrors> getAllNotificationsResponse;
+  late Either<NotificationModel, LibErrors> getNotificationResponse;
+  late Either<List<AllAccountModel>, LibErrors> getAllSavingsAccountsResponse;
+  late Either<AccountCreationResponse, LibErrors> addSavingsAccountResponse;
+  late Either<List<AccountTypeModel>, LibErrors> getAllAccountTypesResponse;
+  late Either<List<Map<String, String?>>, LibErrors> getAccountCreationFieldsResponse;
   String testToken;
   String? testID;
 
@@ -40,6 +41,7 @@ void main() {
   /// [coreHandler] [mock] to true
   test('Test get balance - Core Banking', () async {
     response = await coreHandler.getBalance(testID!);
+    response.map((right) => debugPrint(right.message));
     debugPrint(response.toString());
   });
 
@@ -68,6 +70,7 @@ void main() {
     }));
     // print(transferResponse.left.data);
     transferResponse.mapLeft((left) => debugPrint(left.toString()));
+    transferResponse.map((right) => debugPrint(right.toString()));
   });
 
   test('Test get account statement - Core Banking', () async {
@@ -130,7 +133,8 @@ void main() {
     if (getTransactionsResponse.isLeft){
       debugPrint(getTransactionsResponse.left.toJson().toString());
     } else {
-      debugPrint(getTransactionsResponse.right.toString());
+      // debugPrint(getTransactionsResponse.right.message);
+      debugPrint(getTransactionsResponse.right.toNewlineSeparatedString());
     }
   });
 
@@ -158,12 +162,12 @@ void main() {
   });
 
   test('Test create pin - Core Banking', () async {
-    Either<String, String> response = await coreHandler.createPin({'pin': '1234'});
+    Either<String, LibErrors> response = await coreHandler.createPin({'pin': '1234'});
     debugPrint(response.toString());
   });
 
   test('Test update pin - Core Banking', () async {
-    Either<String, String> response = await coreHandler.updatePin({
+    Either<String, LibErrors> response = await coreHandler.updatePin({
       'old_pin': '1234',
       'pin': '1234',
     });
@@ -171,12 +175,12 @@ void main() {
   });
 
   test('Test verify pin - Core Banking', () async {
-    Either<String, String> response = await coreHandler.verifyPin({'pin': '1234'});
+    Either<String, LibErrors> response = await coreHandler.verifyPin({'pin': '1234'});
     debugPrint(response.left.toString());
   });
 
   test('Test has pin - Core Banking', () async {
-    Either<bool, String> response = await coreHandler.hasPin();
+    Either<bool, LibErrors> response = await coreHandler.hasPin();
     debugPrint(response.left.toString());
   });
 
@@ -236,31 +240,34 @@ void main() {
     if (getAccountCreationFieldsResponse.isLeft){
       debugPrint(getAccountCreationFieldsResponse.left.toString());
     } else {
-      debugPrint(getAccountCreationFieldsResponse.right);
+      debugPrint(getAccountCreationFieldsResponse.right.message);
     }
   });
 
   test ('Test create accounts - Core Banking', () async {
     addSavingsAccountResponse = await coreHandler.createAccount(CreateAccountRequest.fromJson({
-      "bank_id": "2",
-      "account_type_id": "1",
-      "bvn": "22440037046",
-      "last_name": "Babalola",
-      "other_names": "Abdulqudduus",
-      "gender": "M",
-      "place_of_birth": "Ikeja, Lagos",
-      "date_of_birth": "1999-05-21",
-      "address": "Lugbe, FCT",
+      // "bank_id": "2",
+      // "account_type_id": "1",
+      // "bvn": "22440037046",
+      // "last_name": "Babalola",
+      // "other_names": "Abdulqudduus",
+      // "gender": "M",
+      // "place_of_birth": "Ikeja, Lagos",
+      // "date_of_birth": "1999-05-21",
+      // "address": "Lugbe, FCT",
       // Regent MFB: Babalola Abdulqudduus
       // 1300243913 ? Probably
       // 1400243916
       // 1500243919
-      "phone": "08143336732",
-      "national_identity_number": "65520881942"
+      // "phone": "08143336732",
+      // "national_identity_number": "65520881942"
     }));
     if (addSavingsAccountResponse.isLeft){
       debugPrint(addSavingsAccountResponse.left.toString());
     }
-    debugPrint(addSavingsAccountResponse.toString());
+    addSavingsAccountResponse.map((right) => {
+      debugPrint(right.toNewlineSeparatedString())
+    });
+    // debugPrint(addSavingsAccountResponse.toString());
   });
 }
