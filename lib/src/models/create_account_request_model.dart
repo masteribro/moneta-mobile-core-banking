@@ -47,7 +47,7 @@ class CreateAccountRequest {
     "other_names": otherNames,
     "gender": gender,
     "place_of_birth": placeOfBirth,
-    "date_of_birth": "${dateOfBirth!.year.toString().padLeft(4, '0')}-${dateOfBirth!.month.toString().padLeft(2, '0')}-${dateOfBirth!.day.toString().padLeft(2, '0')}",
+    "date_of_birth": "${dateOfBirth?.year.toString().padLeft(4, '0')}-${dateOfBirth?.month.toString().padLeft(2, '0')}-${dateOfBirth?.day.toString().padLeft(2, '0')}",
     "address": address,
     "phone": phone,
     "national_identity_number": nationalIdentityNumber,
