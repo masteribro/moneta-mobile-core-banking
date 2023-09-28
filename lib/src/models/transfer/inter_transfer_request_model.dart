@@ -9,6 +9,8 @@ class InterTransferRequestModel extends TransferRequestModel{
   String? receiverBankCode;
   String? receiverPhoneNumber;
   String? narration;
+  bool? saveBeneficiary;
+  String? beneficiaryAccountName;
 
   InterTransferRequestModel({
     this.amount,
@@ -19,6 +21,8 @@ class InterTransferRequestModel extends TransferRequestModel{
     this.receiverBankCode,
     this.receiverPhoneNumber,
     this.narration,
+    this.saveBeneficiary,
+    this.beneficiaryAccountName,
   });
 
   factory InterTransferRequestModel.fromJson(Map<String, dynamic> json) => InterTransferRequestModel(
@@ -30,6 +34,8 @@ class InterTransferRequestModel extends TransferRequestModel{
     receiverBankCode: json["receiver_bank_code"],
     receiverPhoneNumber: json["receiver_phone_number"],
     narration: json["narration"],
+    saveBeneficiary: json["save_beneficiary"],
+    beneficiaryAccountName: json["beneficiary_account_name"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,6 +47,8 @@ class InterTransferRequestModel extends TransferRequestModel{
     "receiver_bank_code": receiverBankCode,
     "receiver_phone_number": receiverPhoneNumber,
     "narration": narration,
+    "save_beneficiary": saveBeneficiary,
+    "beneficiary_account_name": beneficiaryAccountName,
   };
 
   @override
