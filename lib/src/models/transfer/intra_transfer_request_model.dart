@@ -5,12 +5,16 @@ class IntraTransferRequestModel extends TransferRequestModel {
   String? fromAccountNumber;
   String? toAccountNumber;
   String? narration;
+  bool? saveBeneficiary;
+  String? beneficiaryAccountName;
 
   IntraTransferRequestModel({
     this.amount,
     this.fromAccountNumber,
     this.toAccountNumber,
     this.narration,
+    this.saveBeneficiary,
+    this.beneficiaryAccountName,
   });
 
   factory IntraTransferRequestModel.fromJson(Map<String, dynamic> json) => IntraTransferRequestModel(
@@ -18,13 +22,18 @@ class IntraTransferRequestModel extends TransferRequestModel {
     fromAccountNumber: json["from_account_number"],
     toAccountNumber: json["to_account_number"],
     narration: json["narration"],
+    saveBeneficiary: json["save_beneficiary"],
+    beneficiaryAccountName: json["beneficiary_account_name"],
   );
 
+  @override
   Map<String, dynamic> toJson() => {
     "amount": amount,
     "from_account_number": fromAccountNumber,
     "to_account_number": toAccountNumber,
     "narration": narration,
+    "save_beneficiary": saveBeneficiary,
+    "beneficiary_account_name": beneficiaryAccountName,
   };
 
   @override
