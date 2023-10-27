@@ -26,6 +26,12 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getATransactionLog(String monetaReference) {
+    // TODO: implement getATransactionLog
+    throw UnimplementedError();
+  }
+
+  @override
   Future<ApiResponse> getBalance(String id) async {
     await Future.delayed(const Duration(seconds: 1));
     return ApiResponse(Response(
