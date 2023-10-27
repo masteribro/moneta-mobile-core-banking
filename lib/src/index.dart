@@ -18,7 +18,8 @@ class MonetaCoreBanking {
   final bool mock;
   final bool isStaging;
 
-  MonetaCoreBanking({required this.requestToken, this.mock = false, this.isStaging = true}) {
+  MonetaCoreBanking(
+      {required this.requestToken, this.mock = false, this.isStaging = true}) {
     _bankingRepo = mock
         ? BankingRepositoryMock(requestToken)
         : BankingRepository(requestToken, isStaging);
@@ -43,12 +44,50 @@ class MonetaCoreBanking {
   }
 
   ///returns either TransferResponse on success or error message
-  Future<Either<String, LibErrors>> transfer(
+  ///
+  Future<Either<Map<String, dynamic>, LibErrors>> transfer(
       TransferRequestModel request) async {
     try {
       ApiResponse res = await _bankingRepo.doTransfer(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        return Left(res.data["message"]);
+        print("Fron Transfer response ${res.data["data"]}");
+        var resData = res.data["data"] as Map<String, dynamic>;
+        // make a new call to get the transaction record
+        // String monetaReference = resData["MonetaReference"];
+
+        // if (transactionLog.isLeft) {
+        //   return transactionLog;
+        // } else {
+        //   throw transactionLog.right.errors;
+        // }
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<TransactionModel, LibErrors>> getATransactionLog(
+      String monetaReference) async {
+    try {
+      ApiResponse res = await _bankingRepo.getATransactionLog(monetaReference);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var nData = res.data["data"];
+        TransactionModel transaction = TransactionModel(
+            id: nData["id"],
+            currentDate: DateTime.now(),
+            referenceId: nData["reference"],
+            amount: nData["amount"],
+            transactionDate: DateTime.tryParse(nData["created_at"]),
+            // transactionDateString: ,
+            recordType: "Debit",
+            narration: "nil");
+
+        return Left(transaction);
       } else {
         LibErrors? errors = LibErrors.parseErrors(res.data);
         return Right(errors ?? LibErrors());
@@ -120,7 +159,8 @@ class MonetaCoreBanking {
   }
 
   /// Returns either List of possible [Bank]s on success or error message
-  Future<Either<List<Bank>, LibErrors>> resolveBank(String accountNumber) async {
+  Future<Either<List<Bank>, LibErrors>> resolveBank(
+      String accountNumber) async {
     try {
       ApiResponse res = await _bankingRepo.resolveBank(accountNumber);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -240,10 +280,12 @@ class MonetaCoreBanking {
       ApiResponse res = await _bankingRepo.getTransactions(requestModel);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
         debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
-        TransactionsResponseModel transactions = TransactionsResponseModel.fromJson(res.data["data"]);
+        TransactionsResponseModel transactions =
+            TransactionsResponseModel.fromJson(res.data["data"]);
         return Left(transactions);
       } else {
-        LibErrors? errors = LibErrors.parseErrors(res.data, errorsKey: "message");
+        LibErrors? errors =
+            LibErrors.parseErrors(res.data, errorsKey: "message");
         return Right(errors ?? LibErrors());
       }
     } catch (e) {
@@ -293,7 +335,8 @@ class MonetaCoreBanking {
     }
   }
 
-  Future<Either<String, LibErrors>> removeBeneficiary(String beneficiaryId) async {
+  Future<Either<String, LibErrors>> removeBeneficiary(
+      String beneficiaryId) async {
     try {
       ApiResponse res = await _bankingRepo.removeBeneficiary(beneficiaryId);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -308,7 +351,8 @@ class MonetaCoreBanking {
     }
   }
 
-  Future<Either<String, LibErrors>> verifyPin(Map<String, dynamic> request) async {
+  Future<Either<String, LibErrors>> verifyPin(
+      Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.verifyPin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -323,7 +367,8 @@ class MonetaCoreBanking {
     }
   }
 
-  Future<Either<String, LibErrors>> createPin(Map<String, dynamic> request) async {
+  Future<Either<String, LibErrors>> createPin(
+      Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.createPin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -338,7 +383,8 @@ class MonetaCoreBanking {
     }
   }
 
-  Future<Either<String, LibErrors>> updatePin(Map<String, dynamic> request) async {
+  Future<Either<String, LibErrors>> updatePin(
+      Map<String, dynamic> request) async {
     try {
       ApiResponse res = await _bankingRepo.updatePin(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -369,7 +415,8 @@ class MonetaCoreBanking {
   }
 
   /// Returns Either a List of Notification objects on success or error message
-  Future<Either<List<NotificationModel>, LibErrors>> getAllNotifications() async {
+  Future<Either<List<NotificationModel>, LibErrors>>
+      getAllNotifications() async {
     try {
       ApiResponse res = await _bankingRepo.getAllNotifications();
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -469,8 +516,8 @@ class MonetaCoreBanking {
   }
 
   /// Returns Either a List of Maps for each field on success or error message
-  Future<Either<List<Map<String, String?>>, LibErrors>> getAccountCreationFields(
-      String bankId) async {
+  Future<Either<List<Map<String, String?>>, LibErrors>>
+      getAccountCreationFields(String bankId) async {
     try {
       ApiResponse res = await _bankingRepo.getAccountCreationFields(bankId);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
@@ -500,7 +547,8 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.createAccount(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        AccountCreationResponse accountCreationResponse = AccountCreationResponse.fromJson(res.data["data"]);
+        AccountCreationResponse accountCreationResponse =
+            AccountCreationResponse.fromJson(res.data["data"]);
         return Left(accountCreationResponse);
       } else {
         LibErrors? errors = LibErrors.parseErrors(res.data);

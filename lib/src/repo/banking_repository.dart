@@ -25,8 +25,17 @@ class BankingRepository extends IBankingRepository {
   ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "/bank-one/transfer/${request.isIntra() ? 'intra': 'inter'}",
+      endpoint: "/bank-one/transfer/${request.isIntra() ? 'intra' : 'inter'}",
       reqBody: request.toJson(),
+    );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getATransactionLog(String monetaReference) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.get,
+      endpoint: "/transfers/$monetaReference",
     );
     return response;
   }
@@ -104,10 +113,9 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> getTransactions(TransactionsRequestModel request) async {
     ApiResponse response = await api.call(
-      method: HttpMethod.post,
-      endpoint: "/bank-one/transaction-history",
-      reqBody: request.toJson()
-    );
+        method: HttpMethod.post,
+        endpoint: "/bank-one/transaction-history",
+        reqBody: request.toJson());
     return response;
   }
 
