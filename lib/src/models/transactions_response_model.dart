@@ -140,7 +140,7 @@ class TransactionModel {
         productInfo: json["ProductInfo"],
         transferLog: json["TransferLog"] == null
             ? null
-            : TransferLog.fromJson(json["transfer_log"]),
+            : TransferLog.fromJson(json["TransferLog"]),
       );
 
   Map<String, dynamic> toJson() => {
