@@ -179,20 +179,21 @@ class TransferLog {
   String? recipientAccountName;
   String? recipientBankCode;
   String? recipientBankName;
+  String? logDate;
   Map<String, dynamic>? metadata;
 
-  TransferLog({
-    this.id,
-    this.accountId,
-    this.reference,
-    this.transferType,
-    this.amount,
-    this.recipientAccountNumber,
-    this.recipientAccountName,
-    this.recipientBankCode,
-    this.recipientBankName,
-    this.metadata,
-  });
+  TransferLog(
+      {this.id,
+      this.accountId,
+      this.reference,
+      this.transferType,
+      this.amount,
+      this.recipientAccountNumber,
+      this.recipientAccountName,
+      this.recipientBankCode,
+      this.recipientBankName,
+      this.metadata,
+      this.logDate});
 
   factory TransferLog.fromJson(Map<String, dynamic> json) => TransferLog(
         id: json["id"],
@@ -204,6 +205,7 @@ class TransferLog {
         recipientAccountName: json["recipient_account_name"],
         recipientBankCode: json["recipient_bank_code"],
         recipientBankName: json["recipient_bank_name"],
+        logDate: json["created_at"],
         metadata: json["metadata"],
       );
 }
