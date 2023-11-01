@@ -176,7 +176,11 @@ class MonetaCoreBanking {
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
-      return Right(LibErrors.error(e.toString()));
+
+      ///Most error that happens here are error that are related to dart parsing
+      /// the data of errors such as socket execption, os Error, nullexception ..
+      /// so this just make it easy for users to understand .
+      return Right(LibErrors.error("Error resolving account"));
     }
   }
 
