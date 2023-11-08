@@ -7,7 +7,7 @@ import 'package:moneta_core_banking/moneta_core_banking.dart';
 void main() {
   late MonetaCoreBanking coreHandler;
   late Either<Balance, LibErrors> response;
-  late Either<String, LibErrors> transferResponse;
+  // late Either<String, LibErrors> transferResponse;
   late Either<Map, LibErrors> statementResponse;
   late Either<List<Bank>, LibErrors> getBanksResponse;
   late Either<List<Bank>, LibErrors> resolveResponse;
@@ -30,7 +30,7 @@ void main() {
   String? testID;
 
   setUp(() async {
-    testToken = "483|kSWCE7TwXq4aWoEcP9XAfQfC818fNwvNxF9b0RTP";
+    testToken = "491|BkC4HUcy9GtaV5s4ACFEIW5ScexdgdPzOEqtLBo1";
     testID = "3";
     coreHandler = MonetaCoreBanking(
         requestToken: testToken, mock: false, isStaging: false);
@@ -126,7 +126,7 @@ void main() {
     if (removeAccountResponse.isLeft) {
       debugPrint(removeAccountResponse.left);
     } else {
-      debugPrint(removeAccountResponse.right.toString());
+      debugPrint(removeAccountResponse.right.toNewlineSeparatedString());
     }
   });
 
