@@ -283,4 +283,69 @@ void main() {
         .map((right) => {debugPrint(right.toNewlineSeparatedString())});
     // debugPrint(addSavingsAccountResponse.toString());
   });
+
+  test('Test Verify Account V2', () async {
+    final result = await coreHandler.verifyAccountV2(
+        {
+          "account_number": "1100251240", //This is the first endpoint to call when connecting an account.
+          "bank_code": "090125" //regent=090125;ewt=NG0450001
+        }
+    );
+
+    assert(result.isLeft);
+  });
+
+  test('Test Connect Account V2', () async {
+    final result = await coreHandler.connectAccountV2(
+        {
+          "account_number":"0450018564",
+          "otp": "053410"
+        }
+    );
+
+    assert(result.isLeft);
+  });
+
+  test('Test Transfer V2', () async {
+    final result = await coreHandler.transferV2(
+        {
+          "amount": "20",
+          "account_id": "27",
+          "beneficiary_account_number": "1100252797", //1200252790
+          "beneficiary_bank_code": "090125",
+          "save_beneficiary": false
+        }
+    );
+
+    assert(result.isLeft);
+  });
+
+  test('Test Create Account V2', () async {
+    final result = await coreHandler.createAccountV2(
+        {
+          "bank_code": "REGENT_BANK_CODE",
+          "account_type_id": "1",
+          "bvn": "12345678901",
+          "first_name": "Hohn",
+          "last_name": "Doe",
+          "other_names": "John",
+          "gender": "M",
+          "date_of_birth": "1990-01-01",
+          "phone": "+2348012345678",
+          "place_of_birth": "Lagos",
+          "address": "123 Main St, Lagos",
+          "national_identity_number": "1234567890",
+          "city":"Abuja",
+          "state": "FCT"
+        }
+    );
+
+    assert(result.isLeft);
+  });
+
+  test('Test Get Account Balance V2', () async {
+    final result = await coreHandler.balanceEnquiryV2("27"); //27
+
+    assert(result.isLeft);
+  });
 }

@@ -26,6 +26,20 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> transferV2(Map<String, dynamic> request) async {
+
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Transfer was successful",
+          "data": []
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
   Future<ApiResponse> getATransactionLog(String monetaReference) {
     // TODO: implement getATransactionLog
     throw UnimplementedError();
@@ -1225,5 +1239,29 @@ class BankingRepositoryMock extends IBankingRepository {
           }
         },
         requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> verifyAccountV2(Map<String, dynamic> request) {
+    // TODO: implement verifyAccountV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> createAccountV2(Map<String, dynamic> request) {
+    // TODO: implement createAccountV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> connectAccountV2(Map<String, dynamic> request) {
+    // TODO: implement connectAccountV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> balanceEnquiryV2(String accountId) {
+    // TODO: implement balanceEnquiryV2
+    throw UnimplementedError();
   }
 }

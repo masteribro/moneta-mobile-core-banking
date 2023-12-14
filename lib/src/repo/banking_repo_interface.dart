@@ -9,6 +9,8 @@ abstract class IBankingRepository {
     TransferRequestModel request,
   );
 
+  Future<ApiResponse> transferV2(Map<String, dynamic> request,);
+
   Future<ApiResponse> getBalance(String id);
 
   Future<ApiResponse> getATransactionLog(String monetaReference);
@@ -62,5 +64,13 @@ abstract class IBankingRepository {
   Future<ApiResponse> getAccountCreationFields(String bankId);
 
   Future<ApiResponse> createAccount(CreateAccountRequest request);
+
+  Future<ApiResponse> verifyAccountV2(Map<String, dynamic> request);
+
+  Future<ApiResponse> createAccountV2(Map<String, dynamic> request);
+
+  Future<ApiResponse> connectAccountV2(Map<String, dynamic> request);
+
+  Future<ApiResponse> balanceEnquiryV2(String accountId);
 
 }

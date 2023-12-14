@@ -71,6 +71,23 @@ class MonetaCoreBanking {
     }
   }
 
+  Future<Either<Map<String, dynamic>, LibErrors>> transferV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.transferV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
   Future<Either<TransactionModel, LibErrors>> getATransactionLog(
       String monetaReference) async {
     try {
@@ -563,4 +580,73 @@ class MonetaCoreBanking {
       return Right(LibErrors.error(e.toString()));
     }
   }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> createAccountV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.createAccountV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> verifyAccountV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.verifyAccountV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> connectAccountV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.connectAccountV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> balanceEnquiryV2(
+      String accountId) async {
+    try {
+      ApiResponse res = await _bankingRepo.balanceEnquiryV2(accountId);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
 }
