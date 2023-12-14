@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
+import 'package:moneta_core_banking/src/models/bank_code.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -50,7 +51,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.doTransfer(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        print("Fron Transfer response ${res.data["data"]}");
+        // print("Fron Transfer response ${res.data["data"]}");
         var resData = res.data["data"] as Map<String, dynamic>;
         // make a new call to get the transaction record
         // String monetaReference = resData["MonetaReference"];
@@ -144,6 +145,33 @@ class MonetaCoreBanking {
         VerifyAccountModel verifyAccountModel =
             VerifyAccountModel.fromJson(res.data["data"]);
         return Left(verifyAccountModel);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  ///returns either List of [Bank]s on success or error message
+  Future<Either<List<BankCode>, LibErrors>> getBankCodesV2(String accountId) async {
+    try {
+      ApiResponse res = await _bankingRepo.getBankCodesV2(accountId);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+
+        List<BankCode> bankCodeList = [];
+        /// A list of Bank Objects
+        if (res.data["data"].runtimeType.toString().contains("List")){
+          for (var bank in res.data["data"]) {
+            bankCodeList.add(BankCode.fromCoreBankingFormat(bank: Bank.fromJson(bank)));
+          }
+        } else if (res.data["data"].runtimeType.toString().contains("Map")){ /// A Map of Bank Codes
+          bankCodeList = BankCode.convertMapToList(res.data["data"]);
+        }
+        return Left(bankCodeList);
+
       } else {
         LibErrors? errors = LibErrors.parseErrors(res.data);
         return Right(errors ?? LibErrors());

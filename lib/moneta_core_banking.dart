@@ -12,3 +12,4 @@ export 'package:moneta_core_banking/src/models/verify_account_model.dart';
 export 'package:moneta_core_banking/src/models/savings/savings.dart';
 export 'package:moneta_core_banking/src/models/create_account_request_model.dart';
 export 'package:moneta_core_banking/src/models/transfer/transfers.dart';
+export 'package:moneta_core_banking/src/models/bank_code.dart';

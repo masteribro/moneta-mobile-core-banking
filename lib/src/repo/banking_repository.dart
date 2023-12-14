@@ -60,6 +60,15 @@ class BankingRepository extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> getBankCodesV2(String accountId) async {
+    ApiResponse response = await api.call(
+      method: HttpMethod.post,
+      endpoint: "/v2/banking/bank-codes/$accountId",
+    );
+    return response;
+  }
+
+  @override
   Future<ApiResponse> getAllBanks() async {
     ApiResponse response = await api.call(
       method: HttpMethod.get,

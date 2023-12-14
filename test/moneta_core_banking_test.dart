@@ -33,7 +33,7 @@ void main() {
     testToken = "491|BkC4HUcy9GtaV5s4ACFEIW5ScexdgdPzOEqtLBo1";
     testID = "3";
     coreHandler = MonetaCoreBanking(
-        requestToken: testToken, mock: false, isStaging: false);
+        requestToken: testToken, mock: true, isStaging: false);
   });
 
   test('Test serialization on Core Banking Model', () {});
@@ -91,6 +91,13 @@ void main() {
       debugPrint(getAllAccountsResponse.left.first.extendedBank?.name);
     }
     debugPrint(getAllAccountsResponse.toString());
+  });
+
+  test('Test get bank codes - Core Banking', () async {
+    final response = await coreHandler.getBankCodesV2("1");
+    // debugPrint(getBanksResponse.left.first.name);
+    debugPrint(BankCode.getBankListString(response.left));
+    assert(response.isLeft);
   });
 
   test('Test get all banks - Core Banking', () async {

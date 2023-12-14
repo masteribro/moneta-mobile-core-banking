@@ -15,6 +15,8 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> getATransactionLog(String monetaReference);
 
+  Future<ApiResponse> getBankCodesV2(String accountId);
+
   Future<ApiResponse> getAllBanks();
 
   Future<ApiResponse> getOnboardedBanks();
