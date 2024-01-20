@@ -1667,4 +1667,10 @@ class BankingRepositoryMock extends IBankingRepository {
     // TODO: implement balanceEnquiryV2
     throw UnimplementedError();
   }
+
+  @override
+  Future<ApiResponse> getTransactionsV2(String accountId, TransactionsRequestModelV2 request) {
+    // TODO: implement getTransactionsV2
+    throw UnimplementedError();
+  }
 }

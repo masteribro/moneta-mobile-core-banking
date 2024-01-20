@@ -25,14 +25,17 @@ class BankingRepository extends IBankingRepository {
   ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
-      endpoint: "/v1/bank-one/transfer/${request.isIntra() ? 'intra' : 'inter'}",
+      endpoint:
+          "/v1/bank-one/transfer/${request.isIntra() ? 'intra' : 'inter'}",
       reqBody: request.toJson(),
     );
     return response;
   }
 
   @override
-  Future<ApiResponse> transferV2(Map<String, dynamic> request,)async {
+  Future<ApiResponse> transferV2(
+    Map<String, dynamic> request,
+  ) async {
     ApiResponse response = await api.call(
       method: HttpMethod.post,
       endpoint: "/v2/banking/transfer",
@@ -150,7 +153,9 @@ class BankingRepository extends IBankingRepository {
   @override
   Future<ApiResponse> addBeneficiary(Map<String, dynamic> request) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.post, endpoint: "/v1/beneficiaries", reqBody: request);
+        method: HttpMethod.post,
+        endpoint: "/v1/beneficiaries",
+        reqBody: request);
     return response;
   }
 
@@ -294,8 +299,7 @@ class BankingRepository extends IBankingRepository {
     ApiResponse response = await api.call(
         method: HttpMethod.post,
         endpoint: "/v2/banking/connect-account/verify",
-        reqBody: request
-    );
+        reqBody: request);
     return response;
   }
 
@@ -304,8 +308,7 @@ class BankingRepository extends IBankingRepository {
     ApiResponse response = await api.call(
         method: HttpMethod.post,
         endpoint: "/v2/banking/create-account",
-        reqBody: request
-    );
+        reqBody: request);
     return response;
   }
 
@@ -314,17 +317,26 @@ class BankingRepository extends IBankingRepository {
     ApiResponse response = await api.call(
         method: HttpMethod.post,
         endpoint: "/v2/banking/connect-account",
-        reqBody: request
-    );
+        reqBody: request);
     return response;
   }
 
   @override
   Future<ApiResponse> balanceEnquiryV2(String accountId) async {
     ApiResponse response = await api.call(
-        method: HttpMethod.get,
-        endpoint: "/v2/banking/balance-enquiry/$accountId",
+      method: HttpMethod.get,
+      endpoint: "/v2/banking/balance-enquiry/$accountId",
     );
+    return response;
+  }
+
+  @override
+  Future<ApiResponse> getTransactionsV2(
+      String accountId, TransactionsRequestModelV2 request) async {
+    ApiResponse response = await api.call(
+        method: HttpMethod.post,
+        endpoint: "/v2/banking/transaction-history/$accountId",
+        reqBody: request.toJson());
     return response;
   }
 }

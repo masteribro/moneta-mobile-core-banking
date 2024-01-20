@@ -75,4 +75,6 @@ abstract class IBankingRepository {
 
   Future<ApiResponse> balanceEnquiryV2(String accountId);
 
+  Future<ApiResponse> getTransactionsV2(
+      String accountId, TransactionsRequestModelV2 request);
 }

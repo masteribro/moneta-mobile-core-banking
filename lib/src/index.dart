@@ -1,7 +1,6 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:moneta_base_library/moneta_base_library.dart';
-import 'package:moneta_core_banking/src/models/bank_code.dart';
 import 'package:moneta_core_banking/src/repo/banking_repository.dart';
 
 import '../moneta_core_banking.dart';
@@ -156,22 +155,24 @@ class MonetaCoreBanking {
   }
 
   ///returns either List of [Bank]s on success or error message
-  Future<Either<List<BankCode>, LibErrors>> getBankCodesV2(String accountId) async {
+  Future<Either<List<BankCode>, LibErrors>> getBankCodesV2(
+      String accountId) async {
     try {
       ApiResponse res = await _bankingRepo.getBankCodesV2(accountId);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-
         List<BankCode> bankCodeList = [];
+
         /// A list of Bank Objects
-        if (res.data["data"].runtimeType.toString().contains("List")){
+        if (res.data["data"].runtimeType.toString().contains("List")) {
           for (var bank in res.data["data"]) {
-            bankCodeList.add(BankCode.fromCoreBankingFormat(bank: Bank.fromJson(bank)));
+            bankCodeList
+                .add(BankCode.fromCoreBankingFormat(bank: Bank.fromJson(bank)));
           }
-        } else if (res.data["data"].runtimeType.toString().contains("Map")){ /// A Map of Bank Codes
+        } else if (res.data["data"].runtimeType.toString().contains("Map")) {
+          /// A Map of Bank Codes
           bankCodeList = BankCode.convertMapToList(res.data["data"]);
         }
         return Left(bankCodeList);
-
       } else {
         LibErrors? errors = LibErrors.parseErrors(res.data);
         return Right(errors ?? LibErrors());
@@ -677,4 +678,33 @@ class MonetaCoreBanking {
     }
   }
 
+  /// Returns Either a List of Transaction objects on success or error message
+  Future<Either<List<TransactionResponseModelV2>, LibErrors>> getTransactionsV2(
+      String accountId, TransactionsRequestModelV2 requestModel) async {
+    try {
+      ApiResponse res =
+          await _bankingRepo.getTransactionsV2(accountId, requestModel);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
+
+        List<TransactionResponseModelV2> fields = [];
+
+        if (res.data["data"].runtimeType.toString().contains("List")) {
+          // debugPrint("Raw Transactions: ${res.data["data"]}");
+          for (final value in (res.data["data"] as List)) {
+            fields.add(TransactionResponseModelV2.fromJson(value));
+          }
+          return Left(fields);
+        } else {
+          return const Left([]);
+        }
+      } else {
+        LibErrors? errors =
+            LibErrors.parseErrors(res.data, errorsKey: "message");
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e) {
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
 }
