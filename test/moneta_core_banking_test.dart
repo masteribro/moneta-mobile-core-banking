@@ -30,7 +30,7 @@ void main() {
   String? testID;
 
   setUp(() async {
-    testToken = "491|BkC4HUcy9GtaV5s4ACFEIW5ScexdgdPzOEqtLBo1";
+    testToken = "549|xfLoL4ICPQGDGp1MDiSj5PvGPfr1HbnxoVvUZO2P";
     testID = "3";
     coreHandler = MonetaCoreBanking(
         requestToken: testToken, mock: false, isStaging: false);
@@ -93,6 +93,13 @@ void main() {
     debugPrint(getAllAccountsResponse.toString());
   });
 
+  test('Test get bank codes - Core Banking', () async {
+    final response = await coreHandler.getBankCodesV2("1");
+    // debugPrint(getBanksResponse.left.first.name);
+    debugPrint(BankCode.getBankListString(response.left));
+    assert(response.isLeft);
+  });
+
   test('Test get all banks - Core Banking', () async {
     getBanksResponse = await coreHandler.getAllBanks();
     // debugPrint(getBanksResponse.left.first.name);
@@ -144,6 +151,27 @@ void main() {
     } else {
       // debugPrint(getTransactionsResponse.right.message);
       debugPrint(getTransactionsResponse.right.toNewlineSeparatedString());
+    }
+  });
+
+  test('Test get transactions V2 - Core Banking', () async {
+    final response = await coreHandler.getTransactionsV2(
+        "17",
+        TransactionsRequestModelV2.fromJson({
+          "from_date": "08-09-2023",
+          "to_date": "",
+          "pageSize": "20",
+          "pageNumber": "1"
+        }));
+    if (response.isLeft) {
+      debugPrint("Transactions: ${response.left}");
+      for (final value in response.left){
+        debugPrint(value.narration);
+      }
+      // debugPrint(response.left..narration);
+    } else {
+      // debugPrint(getTransactionsResponse.right.message);
+      debugPrint(response.right.toNewlineSeparatedString());
     }
   });
 
@@ -282,5 +310,62 @@ void main() {
     addSavingsAccountResponse
         .map((right) => {debugPrint(right.toNewlineSeparatedString())});
     // debugPrint(addSavingsAccountResponse.toString());
+  });
+
+  test('Test Verify Account V2', () async {
+    final result = await coreHandler.verifyAccountV2({
+      "account_number": "1100251240",
+      //This is the first endpoint to call when connecting an account.
+      "bank_code": "090125"
+      //regent=090125;ewt=NG0450001
+    });
+
+    assert(result.isLeft);
+  });
+
+  test('Test Connect Account V2', () async {
+    final result = await coreHandler
+        .connectAccountV2({"account_number": "0450018564", "otp": "053410"});
+
+    assert(result.isLeft);
+  });
+
+  test('Test Transfer V2', () async {
+    final result = await coreHandler.transferV2({
+      "amount": "20",
+      "account_id": "27",
+      "beneficiary_account_number": "1100252797", //1200252790
+      "beneficiary_bank_code": "090125",
+      "save_beneficiary": false
+    });
+
+    assert(result.isLeft);
+  });
+
+  test('Test Create Account V2', () async {
+    final result = await coreHandler.createAccountV2({
+      "bank_code": "REGENT_BANK_CODE",
+      "account_type_id": "1",
+      "bvn": "12345678901",
+      "first_name": "Hohn",
+      "last_name": "Doe",
+      "other_names": "John",
+      "gender": "M",
+      "date_of_birth": "1990-01-01",
+      "phone": "+2348012345678",
+      "place_of_birth": "Lagos",
+      "address": "123 Main St, Lagos",
+      "national_identity_number": "1234567890",
+      "city": "Abuja",
+      "state": "FCT"
+    });
+
+    assert(result.isLeft);
+  });
+
+  test('Test Get Account Balance V2', () async {
+    final result = await coreHandler.balanceEnquiryV2("27"); //27
+
+    assert(result.isLeft);
   });
 }
