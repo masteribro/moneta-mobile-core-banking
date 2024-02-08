@@ -50,7 +50,7 @@ class MonetaCoreBanking {
     try {
       ApiResponse res = await _bankingRepo.doTransfer(request);
       if (AppConstants.successfulResponses.contains(res.statusCode)) {
-        print("Fron Transfer response ${res.data["data"]}");
+        // print("Fron Transfer response ${res.data["data"]}");
         var resData = res.data["data"] as Map<String, dynamic>;
         // make a new call to get the transaction record
         // String monetaReference = resData["MonetaReference"];
@@ -60,6 +60,23 @@ class MonetaCoreBanking {
         // } else {
         //   throw transactionLog.right.errors;
         // }
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> transferV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.transferV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
         return Left(resData);
       } else {
         LibErrors? errors = LibErrors.parseErrors(res.data);
@@ -127,6 +144,35 @@ class MonetaCoreBanking {
         VerifyAccountModel verifyAccountModel =
             VerifyAccountModel.fromJson(res.data["data"]);
         return Left(verifyAccountModel);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  ///returns either List of [Bank]s on success or error message
+  Future<Either<List<BankCode>, LibErrors>> getBankCodesV2(
+      String accountId) async {
+    try {
+      ApiResponse res = await _bankingRepo.getBankCodesV2(accountId);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        List<BankCode> bankCodeList = [];
+
+        /// A list of Bank Objects
+        if (res.data["data"].runtimeType.toString().contains("List")) {
+          for (var bank in res.data["data"]) {
+            bankCodeList
+                .add(BankCode.fromCoreBankingFormat(bank: Bank.fromJson(bank)));
+          }
+        } else if (res.data["data"].runtimeType.toString().contains("Map")) {
+          /// A Map of Bank Codes
+          bankCodeList = BankCode.convertMapToList(res.data["data"]);
+        }
+        return Left(bankCodeList);
       } else {
         LibErrors? errors = LibErrors.parseErrors(res.data);
         return Right(errors ?? LibErrors());
@@ -560,6 +606,104 @@ class MonetaCoreBanking {
       }
     } catch (e, stacktrace) {
       debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> createAccountV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.createAccountV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> verifyAccountV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.verifyAccountV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> connectAccountV2(
+      Map<String, dynamic> request) async {
+    try {
+      ApiResponse res = await _bankingRepo.connectAccountV2(request);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  Future<Either<Map<String, dynamic>, LibErrors>> balanceEnquiryV2(
+      String accountId) async {
+    try {
+      ApiResponse res = await _bankingRepo.balanceEnquiryV2(accountId);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        var resData = res.data["data"] as Map<String, dynamic>;
+        return Left(resData);
+      } else {
+        LibErrors? errors = LibErrors.parseErrors(res.data);
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e, stacktrace) {
+      debugPrint(stacktrace.toString());
+      return Right(LibErrors.error(e.toString()));
+    }
+  }
+
+  /// Returns Either a List of Transaction objects on success or error message
+  Future<Either<List<TransactionResponseModelV2>, LibErrors>> getTransactionsV2(
+      String accountId, TransactionsRequestModelV2 requestModel) async {
+    try {
+      ApiResponse res =
+          await _bankingRepo.getTransactionsV2(accountId, requestModel);
+      if (AppConstants.successfulResponses.contains(res.statusCode)) {
+        debugPrint("RunTime Type: ${res.data["data"].runtimeType}");
+
+        List<TransactionResponseModelV2> fields = [];
+
+        if (res.data["data"].runtimeType.toString().contains("List")) {
+          // debugPrint("Raw Transactions: ${res.data["data"]}");
+          for (final value in (res.data["data"] as List)) {
+            fields.add(TransactionResponseModelV2.fromJson(value));
+          }
+          return Left(fields);
+        } else {
+          return const Left([]);
+        }
+      } else {
+        LibErrors? errors =
+            LibErrors.parseErrors(res.data, errorsKey: "message");
+        return Right(errors ?? LibErrors());
+      }
+    } catch (e) {
       return Right(LibErrors.error(e.toString()));
     }
   }

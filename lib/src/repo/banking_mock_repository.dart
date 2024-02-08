@@ -26,6 +26,20 @@ class BankingRepositoryMock extends IBankingRepository {
   }
 
   @override
+  Future<ApiResponse> transferV2(Map<String, dynamic> request) async {
+
+    await Future.delayed(const Duration(seconds: 1));
+    return ApiResponse(Response(
+        statusCode: 200,
+        data: {
+          "status": "success",
+          "message": "Transfer was successful",
+          "data": []
+        },
+        requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
   Future<ApiResponse> getATransactionLog(String monetaReference) {
     // TODO: implement getATransactionLog
     throw UnimplementedError();
@@ -48,6 +62,409 @@ class BankingRepositoryMock extends IBankingRepository {
           }
         },
         requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> getBankCodesV2(String accountId) async {
+    await Future.delayed(const Duration(seconds: 1));
+    /// Simulate CBN or Proprietary Bank Codes e.g. 000002 || 044
+    if (accountId == "1"){
+      return ApiResponse(Response(
+          statusCode: 200,
+          data: {
+            "status": "success",
+            "message": "Bank codes retrieval successful", // This is how the response looks ewt associated accounts
+            "data": {
+              "000001": "Sterling Bank",
+              "000002": "Keystone Bank",
+              "000003": "First City Monument Bank",
+              "000004": "United Bank for Africa",
+              "000006": "JAIZ Bank",
+              "000008": "Skye Bank",
+              "000009": "Citi Bank",
+              "000010": "Ecobank Bank",
+              "000011": "Unity Bank",
+              "000012": "StanbicIBTC Bank",
+              "000014": "Access Bank",
+              "000015": "Zenith Bank",
+              "000016": "First Bank of Nigeria",
+              "000017": "Wema Bank",
+              "000018": "Union Bank",
+              "000019": "Enterprise Bank",
+              "000020": "Heritage",
+              "000021": "StandardChartered",
+              "070002": "Fortis Microfinance Bank",
+              "070006": "Covenant",
+              "090001": "ASOSavings",
+              "090003": "JubileeLife",
+              "090004": "Parralex",
+              "090005": "Trustbond",
+              "100001": "FET",
+              "100002": "Pagatech",
+              "100003": "Parkway-ReadyCash",
+              "100004": "Paycom",
+              "100005": "Cellulant",
+              "100006": "eTranzact",
+              "100007": "StanbicMobileMoney",
+              "100008": "EcoMobile",
+              "100009": "GTMobile",
+              "100010": "TeasyMobile",
+              "100011": "Mkudi",
+              "100012": "VTNetworks",
+              "100013": "AccessMobile",
+              "100014": "FBNMobile",
+              "100015": "ChamsMobile",
+              "100016": "FortisMobile",
+              "100017": "Hedonmark",
+              "100018": "ZenithMobile",
+              "100019": "Fidelity Mobile",
+              "100020": "MoneyBox",
+              "100021": "Eartholeum",
+              "400001": "FSDH",
+              "000005": "Diamond Bank",
+              "000007": "Fidelity Bank",
+              "000013": "GTBank Plc",
+              "000022": "SUNTRUST BANK",
+              "000023": "Providus Bank",
+              "000024": "Rand Merchant Bank",
+              "060001": "Coronation",
+              "060002": "FBN merchant Bank",
+              "070001": "NPF MicroFinance Bank",
+              "070007": "Omoluabi Mortgage Bank Plc",
+              "070008": "Page MFBank",
+              "070009": "GATEWAY MORTGAGE BANK",
+              "070010": "ABBEY MORTGAGE BANK",
+              "070011": "Refuge Mortgage Bank",
+              "070012": "LBIC Mortgage Bank",
+              "070013": "PLATINUM MORTGAGE BANK",
+              "070014": "First Generation Mortgage Bank",
+              "090006": "SafeTrust",
+              "090097": "Ekondo MFB",
+              "090107": "FBN Morgages Limited",
+              "090108": "New Prudential Bank",
+              "090110": "VFD MFB",
+              "090111": "FinaTrust Microfinance Bank",
+              "090112": "Seed Capital Microfinance Bank",
+              "090114": "EMPIRE MFB",
+              "090115": "TCF",
+              "090116": "AMML MFB",
+              "090117": "Boctrust Microfinance Bank",
+              "090118": "IBILE Microfinance Bank",
+              "090119": "OHAFIA MFB",
+              "090120": "WETLAND MFB",
+              "090121": "HASAL MFB",
+              "090122": "GOWANS MFB",
+              "090123": "Verite Microfinance Bank",
+              "090124": "XSLNCE Microfinance Bank",
+              "090125": "REGENT MFB",
+              "090126": "FidFund MFB",
+              "090127": "BC Kash MFB",
+              "090128": "Ndiorah MFB",
+              "090129": "MONEYTRUST MFB",
+              "090130": "CONSUMER  MFB",
+              "090131": "ALLWORKERS MFB",
+              "090132": "RICHWAY MFB",
+              "090133": "AL-BARKAH MFB",
+              "090134": "ACCION MFB",
+              "090135": "Personal Trust Microfinance Bank",
+              "090136": "Microcred Microfinance Bank",
+              "090137": "Pecan Trust Microfinance Bank",
+              "090138": "Royal Exchange Microfinance Bank",
+              "090139": "Visa Microfinance Bank",
+              "090140": "Sagamu Microfinance Bank",
+              "090142": "Yes MFB",
+              "090143": "APEKS Microfinance Bank",
+              "090144": "CIT Microfinance bank",
+              "090145": "Full range MFB",
+              "090146": "Trident Microfinance Bank",
+              "100022": "Sterling Mobile",
+              "100023": "TagPay",
+              "100024": "Imperial Homes Mortgage Bank",
+              "100025": "KongaPay",
+              "100026": "ONE FINANCE",
+              "100027": "Intellifin",
+              "100028": "AG MORTGAGE BANK PLC",
+              "100029": "Innovectives Kesh",
+              "110001": "PayAttitude Online",
+              "NG0450001": "EWT MFB"
+            }
+          },
+          requestOptions: RequestOptions(path: "")));
+    } else {
+      return ApiResponse(Response(
+          statusCode: 200,
+          data: {
+            "status": "success",
+            "message": "Bank codes retrieval successful",
+            "data": [
+              {
+                "name": "Access Bank",
+                "slug": "access-bank",
+                "code": "044",
+                "ussd": "*901#"
+              },
+              {
+                "name": "Access Bank (Diamond)",
+                "slug": "access-bank-diamond",
+                "code": "063",
+                "ussd": "*426#"
+              },
+              {
+                "name": "ALAT by WEMA",
+                "slug": "alat-by-wema",
+                "code": "035A",
+                "ussd": "*945*100#"
+              },
+              {
+                "name": "ASO Savings and Loans",
+                "slug": "asosavings",
+                "code": "401",
+                "ussd": ""
+              },
+              {
+                "name": "Bowen Microfinance Bank",
+                "slug": "bowen-microfinance-bank",
+                "code": "50931",
+                "ussd": ""
+              },
+              {
+                "name": "CEMCS Microfinance Bank",
+                "slug": "cemcs-microfinance-bank",
+                "code": "50823",
+                "ussd": ""
+              },
+              {
+                "name": "Citibank Nigeria",
+                "slug": "citibank-nigeria",
+                "code": "023",
+                "ussd": ""
+              },
+              {
+                "name": "Ecobank Nigeria",
+                "slug": "ecobank-nigeria",
+                "code": "050",
+                "ussd": "*326#"
+              },
+              {
+                "name": "Ekondo Microfinance Bank",
+                "slug": "ekondo-microfinance-bank",
+                "code": "562",
+                "ussd": "*540*178#"
+              },
+              {
+                "name": "Fidelity Bank",
+                "slug": "fidelity-bank",
+                "code": "070",
+                "ussd": "*770#"
+              },
+              {
+                "name": "First Bank of Nigeria",
+                "slug": "first-bank-of-nigeria",
+                "code": "011",
+                "ussd": "*894#"
+              },
+              {
+                "name": "First City Monument Bank",
+                "slug": "first-city-monument-bank",
+                "code": "214",
+                "ussd": "*329#"
+              },
+              {
+                "name": "Globus Bank",
+                "slug": "globus-bank",
+                "code": "00103",
+                "ussd": "*989#"
+              },
+              {
+                "name": "Guaranty Trust Bank",
+                "slug": "guaranty-trust-bank",
+                "code": "058",
+                "ussd": "*737#"
+              },
+              {
+                "name": "Hasal Microfinance Bank",
+                "slug": "hasal-microfinance-bank",
+                "code": "50383",
+                "ussd": "*322*127#"
+              },
+              {
+                "name": "Heritage Bank",
+                "slug": "heritage-bank",
+                "code": "030",
+                "ussd": "*322#"
+              },
+              {
+                "name": "Jaiz Bank",
+                "slug": "jaiz-bank",
+                "code": "301",
+                "ussd": "*389*301#"
+              },
+              {
+                "name": "Microbiz MFB",
+                "slug": "microbiz-mfb",
+                "code": "090587",
+                "ussd": ""
+              },
+              {
+                "name": "Keystone Bank",
+                "slug": "keystone-bank",
+                "code": "082",
+                "ussd": "*7111#"
+              },
+              {
+                "name": "Kuda Bank",
+                "slug": "kuda-bank",
+                "code": "50211",
+                "ussd": ""
+              },
+              {
+                "name": "One Finance",
+                "slug": "one-finance",
+                "code": "565",
+                "ussd": "*1303#"
+              },
+              {
+                "name": "Paga",
+                "slug": "paga",
+                "code": "327",
+                "ussd": ""
+              },
+              {
+                "name": "Parallex Bank",
+                "slug": "parallex-bank",
+                "code": "526",
+                "ussd": "*322*318*0#"
+              },
+              {
+                "name": "PayCom",
+                "slug": "paycom",
+                "code": "100004",
+                "ussd": "*955#"
+              },
+              {
+                "name": "Polaris Bank",
+                "slug": "polaris-bank",
+                "code": "076",
+                "ussd": "*833#"
+              },
+              {
+                "name": "Providus Bank",
+                "slug": "providus-bank",
+                "code": "101",
+                "ussd": ""
+              },
+              {
+                "name": "Regent MFB",
+                "slug": "regent-mfb",
+                "code": "090125",
+                "ussd": ""
+              },
+              {
+                "name": "EWT Microfinance Bank",
+                "slug": "ewt-microfinance-bank",
+                "code": "NG0450001",
+                "ussd": ""
+              },
+              {
+                "name": "Rubies MFB",
+                "slug": "rubies-mfb",
+                "code": "125",
+                "ussd": "*7797#"
+              },
+              {
+                "name": "Sparkle Microfinance Bank",
+                "slug": "sparkle-microfinance-bank",
+                "code": "51310",
+                "ussd": ""
+              },
+              {
+                "name": "Stanbic IBTC Bank",
+                "slug": "stanbic-ibtc-bank",
+                "code": "221",
+                "ussd": "*909#"
+              },
+              {
+                "name": "Standard Chartered Bank",
+                "slug": "standard-chartered-bank",
+                "code": "068",
+                "ussd": ""
+              },
+              {
+                "name": "Sterling Bank",
+                "slug": "sterling-bank",
+                "code": "232",
+                "ussd": "*822#"
+              },
+              {
+                "name": "SUDO BANK",
+                "slug": "sudo-bank",
+                "code": "999998",
+                "ussd": ""
+              },
+              {
+                "name": "Suntrust Bank",
+                "slug": "suntrust-bank",
+                "code": "100",
+                "ussd": "*5230#"
+              },
+              {
+                "name": "TAJ Bank",
+                "slug": "taj-bank",
+                "code": "302",
+                "ussd": "*898#"
+              },
+              {
+                "name": "TCF MFB",
+                "slug": "tcf-mfb",
+                "code": "51211",
+                "ussd": "*908#"
+              },
+              {
+                "name": "Titan Trust Bank",
+                "slug": "titan-trust-bank",
+                "code": "102",
+                "ussd": "*922#"
+              },
+              {
+                "name": "Union Bank of Nigeria",
+                "slug": "union-bank-of-nigeria",
+                "code": "032",
+                "ussd": "*826#"
+              },
+              {
+                "name": "United Bank For Africa",
+                "slug": "united-bank-for-africa",
+                "code": "033",
+                "ussd": "*919#"
+              },
+              {
+                "name": "Unity Bank",
+                "slug": "unity-bank",
+                "code": "215",
+                "ussd": "*7799#"
+              },
+              {
+                "name": "VFD",
+                "slug": "vfd",
+                "code": "566",
+                "ussd": ""
+              },
+              {
+                "name": "Wema Bank",
+                "slug": "wema-bank",
+                "code": "035",
+                "ussd": "*945#"
+              },
+              {
+                "name": "Zenith Bank",
+                "slug": "zenith-bank",
+                "code": "057",
+                "ussd": "*966#"
+              }
+            ]
+          },
+          requestOptions: RequestOptions(path: "")));
+    }
   }
 
   @override
@@ -1225,5 +1642,35 @@ class BankingRepositoryMock extends IBankingRepository {
           }
         },
         requestOptions: RequestOptions(path: "")));
+  }
+
+  @override
+  Future<ApiResponse> verifyAccountV2(Map<String, dynamic> request) {
+    // TODO: implement verifyAccountV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> createAccountV2(Map<String, dynamic> request) {
+    // TODO: implement createAccountV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> connectAccountV2(Map<String, dynamic> request) {
+    // TODO: implement connectAccountV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> balanceEnquiryV2(String accountId) {
+    // TODO: implement balanceEnquiryV2
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ApiResponse> getTransactionsV2(String accountId, TransactionsRequestModelV2 request) {
+    // TODO: implement getTransactionsV2
+    throw UnimplementedError();
   }
 }
