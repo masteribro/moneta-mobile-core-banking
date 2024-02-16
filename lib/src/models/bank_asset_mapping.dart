@@ -9,6 +9,7 @@ class BankAssets{
     "50823" : "cemcs-microfinance-bank",
     "023" : "citibank-nigeria",
     "050" : "ecobank-nigeria",
+    "NG0450001": "ewt-mfb",
     "562" : "ekondo-microfinance-bank",
     "070" : "fidelity-bank",
     "011" : "first-bank-of-nigeria",

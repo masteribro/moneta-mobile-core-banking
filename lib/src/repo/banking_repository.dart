@@ -281,7 +281,7 @@ class BankingRepository extends IBankingRepository {
   Future<ApiResponse> getAccountCreationFields(String bankId) async {
     ApiResponse response = await api.call(
         method: HttpMethod.get,
-        endpoint: "/v1/accounts/create-account-fields?bank_id=$bankId");
+        endpoint: "/v2/banking/create-account-fields?bank_id=$bankId");
     return response;
   }
 
