@@ -42,6 +42,7 @@ class BankAssets{
     "215" : "unity-bank",
     "566" : "vfd",
     "035" : "wema-bank",
+    "000001" : "waila-mfb",
     "057" : "zenith-bank",
   };
 }
