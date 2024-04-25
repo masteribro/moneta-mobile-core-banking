@@ -243,7 +243,7 @@ void main() {
     getAllAccountTypesResponse = await coreHandler.getAccountTypes();
     if (getAllAccountTypesResponse.isLeft) {
       debugPrint(getAllAccountTypesResponse.left.toString());
-      debugPrint(getAllAccountTypesResponse.left.map((e) => e.interestRate).toList().toString());
+      debugPrint(getAllAccountTypesResponse.left.map((e) => e.interestRate ).toList().toString());
     }
     debugPrint(getAllAccountTypesResponse.toString());
   });
